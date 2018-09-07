@@ -20,6 +20,8 @@ namespace Backgammon.ConsoleUI
             var ColourPicker = Console.ReadLine();
             Console.WriteLine("The Board is now initializing good luck :)");
             BoardRender();
+            Console.WriteLine("White to move first ");
+            Move(Colours.White);
             Console.ReadKey();    
         }
         public static void BoardRender()
@@ -36,8 +38,11 @@ namespace Backgammon.ConsoleUI
             //interation with the user only
             //Must know which colour it is to roll dice
             Console.WriteLine("Press D to roll the Dice :");
+            Console.ReadKey();
             var roll1 = Dice.Throw();
+            Console.WriteLine(roll1);
             var roll2 = Dice.Throw();
+            Console.WriteLine(roll2);
             //outpt dice
 
             MoveOneDice(colour, roll1);
@@ -49,10 +54,27 @@ namespace Backgammon.ConsoleUI
         private static void MoveOneDice(Colours colour, int roll)
         {
             //select piece you would like to move
+
             Console.WriteLine("Select a piece from the Board to move. E.G. press 1 to move the pieces in location 1 :");
             int pieceNumber = Convert.ToInt32(Console.ReadLine());
-            //test validmove
+
+            var availableMoves = Board.ValidMoves(colour);
+            foreach (var move in availableMoves)
+            {
+                Console.WriteLine(move.ToString());
+            }
+            
+            //test validmove NEEDS RO BE PROGRAMMED
             Board.executeMove(colour, pieceNumber, roll);
+            BoardOutputter();
+        }
+        public static void BoardOutputter()
+        {
+            foreach (var location in Board.Locations)
+            {
+                Console.WriteLine(location.ToString());
+                //Carry on working on the UI work out how to output board correctly.
+            }
         }
     }
 }
