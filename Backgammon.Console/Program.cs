@@ -43,7 +43,7 @@ namespace Backgammon.ConsoleUI
             {
                 if (i==6)
                 {
-                    Console.WriteLine("|---------------|");
+                    Console.WriteLine("|---------------|" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[24].Number + " White pieces =" + Board.Locations[25].Number);
                 }
                 StringBuilder piece = new StringBuilder();
                 piece.Append("|");
@@ -93,8 +93,6 @@ namespace Backgammon.ConsoleUI
             bottomPiece.Append("-----------------");
             Console.WriteLine(bottomPiece.ToString());
 
-            Console.WriteLine("                                            ");
-
         }
         public static void Move(Colours colour)
         {
@@ -108,9 +106,18 @@ namespace Backgammon.ConsoleUI
             var roll2 = Dice.Throw();
             Console.WriteLine("You rolled a "+roll1+" and a "+roll2);
             //output dice
-
-            MoveOneDice(colour, roll1);
-            MoveOneDice(colour, roll2);
+            Console.WriteLine("Select the dice that you would like to use first roll number 1 or 2 :");
+            var dicePicker = Console.ReadLine();
+            if (dicePicker == "1")
+            {
+                MoveOneDice(colour, roll1);
+                MoveOneDice(colour, roll2);
+            }
+            else
+            {
+                MoveOneDice(colour, roll2);
+                MoveOneDice(colour, roll1);
+            }          
             if (colour == Colours.White)
             {
                 Globals.Gcolour = Colours.Black;
@@ -124,17 +131,11 @@ namespace Backgammon.ConsoleUI
 
         private static void MoveOneDice(Colours colour, int roll)
         {
-            var oldBoard = Board.Locations;
-                do
-                {
-                Console.WriteLine("Select a piece from the Board to move. E.G. press 1 to move the pieces in location 1 :");
+                Console.WriteLine("If piece has been taken you will come in on the dice you chose to use first");
+                Console.WriteLine("Select a piece from the Board to move. E.G. press 1 to move the pieces in location 1 :");        
                 int pieceNumber = Convert.ToInt32(Console.ReadLine());
-                Board.executeMove(Globals.Gcolour, pieceNumber, roll);
-               
-            } while (oldBoard != Board.Locations);
+                Board.executeMove(Globals.Gcolour, pieceNumber, roll);//select piece you would like to move
             BoardOutputter();
-
-            //select piece you would like to move
 
         }
         public static void BoardOutputter()
@@ -150,7 +151,7 @@ namespace Backgammon.ConsoleUI
             {
                 if (i == 6)
                 {
-                    Console.WriteLine("|---------------|");
+                    Console.WriteLine("|---------------|" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[24].Number + " White pieces =" + Board.Locations[25].Number);
                 }
                 StringBuilder piece = new StringBuilder();
                 piece.Append("|");

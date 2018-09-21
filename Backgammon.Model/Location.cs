@@ -39,5 +39,6 @@ namespace Backgammon.Model
             }
             //Guard against trying to add a different colour
         }
+            
     }
 }

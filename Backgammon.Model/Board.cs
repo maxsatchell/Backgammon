@@ -47,6 +47,14 @@ namespace Backgammon.Model
         {
             return Locations.Where(kvp => kvp.Value.Colour == colour||kvp.Value.Number <=1).Select(kvp => kvp.Key).ToList();
         }
+        public List<int> ValidMovesWhenTakenWhite(Colours colour)
+        {           
+            return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Take(5).ToList();
+        }
+        public List<int> ValidMovesWhenTakenBlack(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Skip(18).ToList();
+        }
         public void executeMove(Colours colour,int piecelocation,int diceValue)
         {
             //roll dice
@@ -58,7 +66,47 @@ namespace Backgammon.Model
             //output board to the user 
             //cant output to the console in model so that is the problem with this get the move implemented tommorow.
             var availableMoves = ValidMoves(colour);
-            if (availableMoves.Contains(piecelocation + diceValue) == false)
+            var availableMovesTakenWhite = ValidMovesWhenTakenWhite(colour);
+            var availableMovesTakenBlack = ValidMovesWhenTakenBlack(colour);
+            if (colour == Colours.White & Locations[25].Number >= 1 & availableMovesTakenWhite.Contains(diceValue - 1))   //valid moves for the colour white are between the the numbers 0-5 and this is the only place where you can come back into if you have been taken.
+            {
+                var fromLocation = Locations[25];
+                fromLocation.RemoveOnePiece();
+                var toLocation = Locations[diceValue-1];
+                if (colour == Colours.White & Locations[diceValue-1].Number == 1 & Locations[diceValue-1].Colour != colour)
+                {
+                    toLocation.RemoveOnePiece();
+                    Locations[24].AddOnePiece(Colours.Black);
+                    toLocation.AddOnePiece(colour);
+                }
+                else
+                {
+                    toLocation = Locations[diceValue-1];
+                    toLocation.AddOnePiece(colour);
+                }
+            }
+            else if (colour == Colours.Black & Locations[24].Number >= 1 & availableMovesTakenBlack.Contains(23 - diceValue - 1))   //valid moves for the colour white are between the the numbers 0-5 and this is the only place where you can come back into if you have been taken.
+            {
+                var fromLocation = Locations[24];
+                fromLocation.RemoveOnePiece();
+                var toLocation = Locations[23 - diceValue - 1];
+                if (colour == Colours.Black & Locations[23 - diceValue - 1].Number == 1 & Locations[23 - diceValue - 1].Colour != colour)
+                {
+                    toLocation.RemoveOnePiece();
+                    Locations[24].AddOnePiece(Colours.Black);
+                    toLocation.AddOnePiece(colour);
+                }
+                else
+                {
+                    toLocation = Locations[23 - diceValue - 1];
+                    toLocation.AddOnePiece(colour);
+                }
+            }
+            if (colour == Colours.White & availableMoves.Contains(piecelocation + diceValue) == false)
+            {
+                return;
+            }
+            if (colour == Colours.Black & availableMoves.Contains(piecelocation - diceValue) == false)
             {
                 return;
             }
@@ -66,34 +114,49 @@ namespace Backgammon.Model
             {
                 return;
             }
-            if (availableMoves.Contains(piecelocation + diceValue) & Locations[piecelocation + diceValue].Number ==1)//used when exposed
+            if (colour == Colours.White & availableMoves.Contains(piecelocation + diceValue))//used when exposed
             {
                 //this will mean the not gcoulor will be added to a location out of board only to be brought in when it can with the help of avilable exposed moves.
                 var fromLocation = Locations[piecelocation];
                 fromLocation.RemoveOnePiece();
                 
                 var toLocation = Locations[piecelocation + diceValue];
-                if (colour == Colours.White & Locations[piecelocation + diceValue].Colour != colour)
+                if (colour == Colours.White & Locations[piecelocation + diceValue].Number == 1 & Locations[piecelocation + diceValue].Colour != colour)
                 {
                     toLocation.RemoveOnePiece();
                     Locations[24].AddOnePiece(Colours.Black);
-                }
-                else if (colour == Colours.Black & Locations[piecelocation + diceValue].Colour != colour)
-                {
-                    Locations[25].AddOnePiece(Colours.White);
+                    toLocation.AddOnePiece(colour);
                 }
                 else
-                {
+                {                  
+                    toLocation = Locations[piecelocation + diceValue];
                     toLocation.AddOnePiece(colour);
                 }           
                 
             }
-            else
+            else if (colour == Colours.Black & availableMoves.Contains(piecelocation - diceValue))//used when exposed
             {
+                //this will mean the not gcoulor will be added to a location out of board only to be brought in when it can with the help of avilable exposed moves.
                 var fromLocation = Locations[piecelocation];
                 fromLocation.RemoveOnePiece();
-                var toLocation = Locations[piecelocation + diceValue];
-                toLocation.AddOnePiece(colour);
+                var toLocation = Locations[piecelocation - diceValue];
+
+                if (colour == Colours.Black & Locations[piecelocation - diceValue].Number == 1 & Locations[piecelocation - diceValue].Colour != colour)
+                {
+                    toLocation.RemoveOnePiece();
+                    Locations[25].AddOnePiece(Colours.White);
+                    toLocation.AddOnePiece(colour);
+                }
+                else
+                {
+                    toLocation = Locations[piecelocation - diceValue];
+                    toLocation.AddOnePiece(colour);
+                }
+
+            }
+            else
+            {
+                return;
             }
             
             
