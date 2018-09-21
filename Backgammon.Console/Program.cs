@@ -99,7 +99,7 @@ namespace Backgammon.ConsoleUI
         public static void Move(Colours colour)
         {
             //interation with the user only
-            //Must know which colour it is to roll dice
+            //Must know which colour it is to roll dice.
             Console.WriteLine("It is " + colour + " turn");
             Console.Write("Press D to roll the Dice :");
             Console.ReadKey();
