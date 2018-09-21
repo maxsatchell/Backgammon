@@ -11,5 +11,9 @@ namespace Backgammon.Model
         //used for alternating next move
         //if no valid moves available then flips back to the last player
         //returns the colour of which turn it is.
+        public Game()
+        {
+
+        }
     }
 }
