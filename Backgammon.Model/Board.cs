@@ -53,7 +53,7 @@ namespace Backgammon.Model
         }
         public List<int> ValidMovesWhenTakenBlack(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Skip(18).ToList();
+            return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Skip(17).Take(6).ToList();
         }
         public void executeMove(Colours colour,int piecelocation,int diceValue)
         {
@@ -78,28 +78,32 @@ namespace Backgammon.Model
                     toLocation.RemoveOnePiece();
                     Locations[24].AddOnePiece(Colours.Black);
                     toLocation.AddOnePiece(colour);
+                    return;
                 }
                 else
                 {
                     toLocation = Locations[diceValue-1];
                     toLocation.AddOnePiece(colour);
+                    return;
                 }
             }
-            else if (colour == Colours.Black & Locations[24].Number >= 1 & availableMovesTakenBlack.Contains(23 - diceValue - 1))   //valid moves for the colour white are between the the numbers 0-5 and this is the only place where you can come back into if you have been taken.
+            else if (colour == Colours.Black & Locations[24].Number >= 1 & availableMovesTakenBlack.Contains(23 - diceValue +1))   //valid moves for the colour white are between the the numbers 0-5 and this is the only place where you can come back into if you have been taken.
             {
                 var fromLocation = Locations[24];
                 fromLocation.RemoveOnePiece();
-                var toLocation = Locations[23 - diceValue - 1];
-                if (colour == Colours.Black & Locations[23 - diceValue - 1].Number == 1 & Locations[23 - diceValue - 1].Colour != colour)
+                var toLocation = Locations[23 - diceValue + 1];
+                if (colour == Colours.Black & Locations[23 - diceValue + 1].Number == 1 & Locations[23 - diceValue + 1].Colour != colour)
                 {
                     toLocation.RemoveOnePiece();
                     Locations[24].AddOnePiece(Colours.Black);
                     toLocation.AddOnePiece(colour);
+                    return;
                 }
                 else
                 {
-                    toLocation = Locations[23 - diceValue - 1];
+                    toLocation = Locations[23 - diceValue + 1];
                     toLocation.AddOnePiece(colour);
+                    return;
                 }
             }
             if (colour == Colours.White & availableMoves.Contains(piecelocation + diceValue) == false)
@@ -160,9 +164,7 @@ namespace Backgammon.Model
             }
             
             
-        }
-
-        
+        }  
 
     }
 }
