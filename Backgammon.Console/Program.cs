@@ -21,11 +21,23 @@ namespace Backgammon.ConsoleUI
             Console.WriteLine("The Board is now initializing good luck :)");
             BoardRender();
             Console.WriteLine("White to move first ");
+            var WEndGame = Board.WEndGameChecker();
+            var BEndGame = Board.BEndGameChecker();
             do
             {
+                WEndGame = Board.WEndGameChecker();
+                BEndGame = Board.BEndGameChecker();
                 Move(Globals.Gcolour);
                 Console.ReadKey();
-            } while (true);
+            } while (WEndGame ==false | BEndGame == false);
+
+            
+            if (WEndGame == true & BEndGame !=true)
+            {
+                //When colour is black do normal moves still check that board is in the end state as there could have been a white piece taken
+                //WEndGameMove();
+            }
+
             
                
         }
@@ -201,7 +213,6 @@ namespace Backgammon.ConsoleUI
             bottomPiece.Append("-----------------");
             Console.WriteLine(bottomPiece.ToString());
         }
-        
-        
+              
     }
 }

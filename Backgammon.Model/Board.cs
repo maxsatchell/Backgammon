@@ -43,6 +43,48 @@ namespace Backgammon.Model
             Locations[25] = new Location(0, Colours.Empty);//where exposed pieces go
         }
 
+        public bool BEndGameChecker()//Checks for the condtions of end game for black pieces.
+        {
+            var adder = 0;
+            for (int i = 0; i <= 5; i++)
+            {
+                if (Locations[i].Colour == Colours.White)
+                {
+                    adder = adder + 0;
+                }
+                else
+                {
+                    adder = adder + Locations[i].Number;
+                }               
+            }
+            if (adder == 15)
+            {
+                return true;
+            }
+            else
+            { return false; };
+        }
+        public bool WEndGameChecker()//Checks for the condtions of end game for black pieces.
+        {
+            var adder = 0;
+            for (int i = 18; i <= 23; i++)
+            {
+                if (Locations[i].Colour == Colours.Black)
+                {
+                    adder = adder + 0;
+                }
+                else
+                {
+                    adder = adder + Locations[i].Number;
+                }
+            }
+            if (adder == 15)
+            {
+                return true;
+            }
+            else
+            { return false; };
+        }
         public List<int> ValidMoves(Colours colour)
         {
             return Locations.Where(kvp => kvp.Value.Colour == colour||kvp.Value.Number <=1).Select(kvp => kvp.Key).ToList();
@@ -163,8 +205,8 @@ namespace Backgammon.Model
                 return;
             }
             
-            
-        }  
 
+        }
+      
     }
 }

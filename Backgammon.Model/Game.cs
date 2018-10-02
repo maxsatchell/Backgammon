@@ -11,9 +11,17 @@ namespace Backgammon.Model
         //used for alternating next move
         //if no valid moves available then flips back to the last player
         //returns the colour of which turn it is.
-        public Game()
+        public Colours Colour { get; private set; }
+        public Dice Dice { get; set; }
+        public Game(Colours colour,Dice dice)
         {
+            Colour = colour;
+            Dice = Dice;
+        }
 
+        public static Bool ()
+        {
+                
         }
     }
 }
