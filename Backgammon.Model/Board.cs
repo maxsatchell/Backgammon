@@ -162,7 +162,7 @@ namespace Backgammon.Model
                 if (colour == Colours.Black & Locations[23 - diceValue + 1].Number == 1 & Locations[23 - diceValue + 1].Colour != colour)
                 {
                     toLocation.RemoveOnePiece();
-                    Locations[24].AddOnePiece(Colours.Black);
+                    Locations[25].AddOnePiece(Colours.White);
                     toLocation.AddOnePiece(colour);
                     return;
                 }
