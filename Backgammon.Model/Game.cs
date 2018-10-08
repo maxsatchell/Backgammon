@@ -19,9 +19,6 @@ namespace Backgammon.Model
             Dice = Dice;
         }
 
-        public static Bool ()
-        {
-                
-        }
+
     }
 }

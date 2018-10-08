@@ -39,65 +39,71 @@ namespace Backgammon.Model
             Locations[21] = new Location(0, Colours.Empty);
             Locations[22] = new Location(0, Colours.Empty);
             Locations[23] = new Location(2, Colours.Black);
-            Locations[24] = new Location(0, Colours.Empty);//where exposed pieces go
-            Locations[25] = new Location(0, Colours.Empty);//where exposed pieces go
+            Locations[24] = new Location(0, Colours.Empty);//where exposed pieces go(black)
+            Locations[25] = new Location(0, Colours.Empty);//where exposed pieces go(white)
+            Locations[26] = new Location(0, Colours.Empty);//Where black pieces are taken off the board in end game
+            Locations[27] = new Location(0, Colours.Empty);//Where white pieces are taken off the board in end game
         }
 
-        public bool BEndGameChecker()//Checks for the condtions of end game for black pieces.
+        public bool EndGameChecker(Colours colour)//Checks for the condtions of end game for black pieces.
         {
             var adder = 0;
-            for (int i = 0; i <= 5; i++)
+            if (colour == Colours.Black)
             {
-                if (Locations[i].Colour == Colours.White)
+                for (int i = 0; i <= 5; i++)
                 {
-                    adder = adder + 0;
+                    if (Locations[i].Colour == Colours.White)
+                    {
+                        adder = adder + 0;
+                    }
+                    else
+                    {
+                        adder = adder + Locations[i].Number;
+                    }
+                }
+                if (adder == 15)//minus the location of the pieces where they are taken off as he might be taken 
+                {
+                    return true;
                 }
                 else
-                {
-                    adder = adder + Locations[i].Number;
-                }               
-            }
-            if (adder == 15)
-            {
-                return true;
+                { return false; };
             }
             else
-            { return false; };
-        }
-        public bool WEndGameChecker()//Checks for the condtions of end game for black pieces.
-        {
-            var adder = 0;
-            for (int i = 18; i <= 23; i++)
             {
-                if (Locations[i].Colour == Colours.Black)
+                for (int i = 18; i <= 23; i++)
                 {
-                    adder = adder + 0;
+                    if (Locations[i].Colour == Colours.Black)
+                    {
+                        adder = adder + 0;
+                    }
+                    else
+                    {
+                        adder = adder + Locations[i].Number;
+                    }
+                }
+                if (adder == 15)
+                {
+                    return true;
                 }
                 else
-                {
-                    adder = adder + Locations[i].Number;
-                }
+                { return false; };
             }
-            if (adder == 15)
-            {
-                return true;
-            }
-            else
-            { return false; };
+
         }
+
         public List<int> ValidMoves(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Value.Colour == colour||kvp.Value.Number <=1).Select(kvp => kvp.Key).ToList();
+            return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).ToList();
         }
         public List<int> ValidMovesWhenTakenWhite(Colours colour)
-        {           
+        {
             return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Take(5).ToList();
         }
         public List<int> ValidMovesWhenTakenBlack(Colours colour)
         {
             return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Skip(17).Take(6).ToList();
         }
-        public void executeMove(Colours colour,int piecelocation,int diceValue)
+        public void executeMove(Colours colour, int piecelocation, int diceValue)
         {
             //roll dice
             //select piece to move(must be a valid piece white cannot move black
@@ -110,12 +116,31 @@ namespace Backgammon.Model
             var availableMoves = ValidMoves(colour);
             var availableMovesTakenWhite = ValidMovesWhenTakenWhite(colour);
             var availableMovesTakenBlack = ValidMovesWhenTakenBlack(colour);
+            var minimumBlack = CalculateMinimumBlack();
+            var maximumWhite = CalculateMaximumWhite();
+
+            if (piecelocation - diceValue < 0 & piecelocation - diceValue == minimumBlack & colour == Colours.Black & EndGameChecker(Colours.Black) == true)
+            {
+                var fromLocation = Locations[piecelocation];
+                fromLocation.RemoveOnePiece();
+                var toLocation = Locations[26];
+                toLocation.AddOnePiece(Colours.Black);
+                return;
+            }
+            else if (piecelocation +diceValue >=24 & piecelocation + diceValue == maximumWhite & colour == Colours.White & EndGameChecker(Colours.White) == true)
+            {
+                var fromLocation = Locations[piecelocation];
+                fromLocation.RemoveOnePiece();
+                var toLocation = Locations[27];
+                toLocation.AddOnePiece(Colours.White);
+                return;
+            }
             if (colour == Colours.White & Locations[25].Number >= 1 & availableMovesTakenWhite.Contains(diceValue - 1))   //valid moves for the colour white are between the the numbers 0-5 and this is the only place where you can come back into if you have been taken.
             {
                 var fromLocation = Locations[25];
                 fromLocation.RemoveOnePiece();
-                var toLocation = Locations[diceValue-1];
-                if (colour == Colours.White & Locations[diceValue-1].Number == 1 & Locations[diceValue-1].Colour != colour)
+                var toLocation = Locations[diceValue - 1];
+                if (colour == Colours.White & Locations[diceValue - 1].Number == 1 & Locations[diceValue - 1].Colour != colour)
                 {
                     toLocation.RemoveOnePiece();
                     Locations[24].AddOnePiece(Colours.Black);
@@ -124,12 +149,12 @@ namespace Backgammon.Model
                 }
                 else
                 {
-                    toLocation = Locations[diceValue-1];
+                    toLocation = Locations[diceValue - 1];
                     toLocation.AddOnePiece(colour);
                     return;
                 }
             }
-            else if (colour == Colours.Black & Locations[24].Number >= 1 & availableMovesTakenBlack.Contains(23 - diceValue +1))   //valid moves for the colour white are between the the numbers 0-5 and this is the only place where you can come back into if you have been taken.
+            else if (colour == Colours.Black & Locations[24].Number >= 1 & availableMovesTakenBlack.Contains(23 - diceValue + 1))   //valid moves for the colour white are between the the numbers 0-5 and this is the only place where you can come back into if you have been taken.
             {
                 var fromLocation = Locations[24];
                 fromLocation.RemoveOnePiece();
@@ -165,20 +190,22 @@ namespace Backgammon.Model
                 //this will mean the not gcoulor will be added to a location out of board only to be brought in when it can with the help of avilable exposed moves.
                 var fromLocation = Locations[piecelocation];
                 fromLocation.RemoveOnePiece();
-                
+
                 var toLocation = Locations[piecelocation + diceValue];
                 if (colour == Colours.White & Locations[piecelocation + diceValue].Number == 1 & Locations[piecelocation + diceValue].Colour != colour)
                 {
                     toLocation.RemoveOnePiece();
                     Locations[24].AddOnePiece(Colours.Black);
                     toLocation.AddOnePiece(colour);
+                    return;
                 }
                 else
-                {                  
+                {
                     toLocation = Locations[piecelocation + diceValue];
                     toLocation.AddOnePiece(colour);
-                }           
-                
+                    return;
+                }
+
             }
             else if (colour == Colours.Black & availableMoves.Contains(piecelocation - diceValue))//used when exposed
             {
@@ -192,11 +219,13 @@ namespace Backgammon.Model
                     toLocation.RemoveOnePiece();
                     Locations[25].AddOnePiece(Colours.White);
                     toLocation.AddOnePiece(colour);
+                    return;
                 }
                 else
                 {
                     toLocation = Locations[piecelocation - diceValue];
                     toLocation.AddOnePiece(colour);
+                    return;
                 }
 
             }
@@ -204,9 +233,48 @@ namespace Backgammon.Model
             {
                 return;
             }
-            
+
 
         }
-      
+        public int CalculateMinimumBlack()
+        {
+            int minimum = -1;
+            int count = 0;
+            do
+            {
+                if (Locations[5 - count].Number == 0)
+                {
+                    minimum = minimum - 1;
+                    count = count + 1;
+                }
+                else
+                {
+                    return minimum;
+                }
+
+            } while (!(Locations[5 - (count - 1)].Number >0));
+            return minimum;
+        }
+        public int CalculateMaximumWhite()
+        {
+            int maximum = 24;
+            int count = 0;
+            do
+            {
+                if (Locations[18 +count].Number==0)
+                {
+                    maximum = maximum + 1;
+                    count = count + 1;
+                }
+                else
+                {
+                    return maximum; 
+                }
+
+            } while (!(Locations[18 - (count - 1)].Number > 0));
+            return maximum;
+
+        }
+
     }
 }
