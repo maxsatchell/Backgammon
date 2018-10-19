@@ -59,6 +59,10 @@
       <Project>{ef9fe1b9-e559-4cb5-a899-841ecc93e2ad}</Project>
       <Name>Backgammon.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fixtures\Backgammon.Fixtures.csproj">
+      <Project>{b74c434a-8afe-4f4a-8926-d740cea62f36}</Project>
+      <Name>Backgammon.Fixtures</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

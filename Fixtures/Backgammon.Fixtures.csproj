@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DBE38B26-7E61-455B-9793-4A16FB4E20DC}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Backgammon.ConsoleUI</RootNamespace>
-    <AssemblyName>Backgammon.ConsoleUI</AssemblyName>
+    <ProjectGuid>{B74C434A-8AFE-4F4A-8926-D740CEA62F36}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fixtures</RootNamespace>
+    <AssemblyName>Fixtures</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,20 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="BoardPositions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Backgammon.Model\Backgammon.Model.csproj">
       <Project>{ef9fe1b9-e559-4cb5-a899-841ecc93e2ad}</Project>
       <Name>Backgammon.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fixtures\Backgammon.Fixtures.csproj">
-      <Project>{b74c434a-8afe-4f4a-8926-d740cea62f36}</Project>
-      <Name>Backgammon.Fixtures</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
