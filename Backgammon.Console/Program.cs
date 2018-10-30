@@ -129,7 +129,6 @@ namespace Backgammon.ConsoleUI
             if (roll1 == roll2)
             {
                 Console.WriteLine("You rolled a double! This means that you get 4 throws");
-
                 MoveOneDice(colour, roll1);
                 MoveOneDice(colour, roll2);
                 MoveOneDice(colour, roll1);
@@ -259,6 +258,11 @@ namespace Backgammon.ConsoleUI
             }
             bottomPiece.Append("-----------------");
             Console.WriteLine(bottomPiece.ToString());
+        }
+        public static void AskforDiceRoll()
+        {
+            Console.WriteLine("Press D to roll Dice");
+            Console.ReadKey();
         }
               
     }
