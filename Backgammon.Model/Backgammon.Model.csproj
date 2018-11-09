@@ -48,8 +48,10 @@
     <Compile Include="Board.cs" />
     <Compile Include="Colours.cs" />
     <Compile Include="Dice.cs" />
+    <Compile Include="DiceRollResult.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="IPlayer.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

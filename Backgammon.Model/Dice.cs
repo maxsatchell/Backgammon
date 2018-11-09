@@ -18,6 +18,7 @@ namespace Backgammon.Model
             int Dice = RNG.Next(1, 7);
             return Dice;
         }
+       
 
     }
     public class PredictableDice:Dice
@@ -33,6 +34,14 @@ namespace Backgammon.Model
             LastThrow = newThrow;
             return newThrow;
         }
-    } 
+    }
+    //public static DiceRollResult Roll()
+    //{
+    //    var result = new DiceRollResult();
+    //    result.Die1 = RNG.Next(1, 7);
+    //    result.Die2 = RandomNumberGenerator.Next(1, 7);
+    //    return result;
+    //}
+
 
 }

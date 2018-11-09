@@ -15,19 +15,17 @@ namespace Backgammon.ConsoleUI
         static void Main(string[] args)
         {
             Dice = new Dice();
-            Console.WriteLine("Welcome to the best backgammon game on the internet");
-            Console.WriteLine("The game will start soon");
             Console.Write("Please pick a colour White or Black :");
             var ColourPicker = Console.ReadLine();
             Console.WriteLine("The Board is now initializing good luck :)");
             BoardRender();
-            Console.WriteLine("White to move first ");
-
-            do
+            Console.WriteLine("White to move first ");          
+            while (Board.Locations[50].Number < 15 | Board.Locations[51].Number < 15)
             {
+                Console.WriteLine("It is " + Globals.Gcolour + " turn");
                 Move(Globals.Gcolour);
                 Console.ReadKey();
-            } while (Board.Locations[50].Number<15 | Board.Locations[51].Number<15);
+            }
             if (Board.Locations[50].Number == 15) 
             {
                 Console.WriteLine("Congratulations Black has won the game!!!");
@@ -37,7 +35,6 @@ namespace Backgammon.ConsoleUI
                 Console.WriteLine("Congratulations White has won the game!!!");
             }
             Console.ReadKey();
-
 
         }
 
@@ -113,7 +110,7 @@ namespace Backgammon.ConsoleUI
         {
             //iteration with the user only
             //Must know which colour it is to roll dice.
-            Console.WriteLine("It is " + colour + " turn");
+            //Check for end game before yous start
             Console.Write("Press D to roll the Dice :");
             Console.ReadKey();
             Console.WriteLine();
@@ -133,15 +130,9 @@ namespace Backgammon.ConsoleUI
                 MoveOneDice(colour, roll2);
                 MoveOneDice(colour, roll1);
                 MoveOneDice(colour, roll2);
-                if (colour == Colours.White)
-                {
-                    Globals.Gcolour = Colours.Black;
-                }
-                else
-                {
-                    Globals.Gcolour = Colours.White;
-                }
+                Game.Colourswapper(colour);
                 return;
+                
             }
             Console.WriteLine("Select the dice that you would like to use first roll number 1 or 2 :");
             var dicePicker = Console.ReadLine();           
@@ -155,16 +146,8 @@ namespace Backgammon.ConsoleUI
                 MoveOneDice(colour, roll2);
                 MoveOneDice(colour, roll1);
             }
-            if (colour == Colours.White)
-            {
-                Globals.Gcolour = Colours.Black;
-            }
-            else
-            {
-                Globals.Gcolour = Colours.White;
-            }
-
-
+            Game.Colourswapper(colour);
+            return;
         }
 
         public static void MoveOneDice(Colours colour, int roll)
@@ -258,11 +241,6 @@ namespace Backgammon.ConsoleUI
             }
             bottomPiece.Append("-----------------");
             Console.WriteLine(bottomPiece.ToString());
-        }
-        public static void AskforDiceRoll()
-        {
-            Console.WriteLine("Press D to roll Dice");
-            Console.ReadKey();
         }
               
     }
