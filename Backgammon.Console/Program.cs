@@ -14,19 +14,35 @@ namespace Backgammon.ConsoleUI
         static Dice Dice { get; set; }
         static void Main(string[] args)
         {
-            Dice = new Dice();
-            Console.Write("Please pick a colour White or Black :");
-            var ColourPicker = Console.ReadLine();
-            Console.WriteLine("The Board is now initializing good luck :)");
-            BoardRender();
-            Console.WriteLine("White to move first ");          
-            while (Board.Locations[50].Number < 15 | Board.Locations[51].Number < 15)
+            StartNewGame();
+            ChooseColors();
+            while (true)//End game condition here that can be looked at 
             {
-                Console.WriteLine("It is " + Globals.Gcolour + " turn");
-                Move(Globals.Gcolour);
-                Console.ReadKey();
+
             }
-            if (Board.Locations[50].Number == 15) 
+            
+
+        }
+        private void UpdatePlayer()
+        {
+            Console.WriteLine(" ");
+            Console.WriteLine("Current player is " + Currentplayer.Colour);
+        }
+
+
+        private static void StartNewGame()
+        {
+            Console.WriteLine("Welcome to the best backgammon game on the internet");
+            Console.WriteLine("The game will start soon");
+            Board = new Board(Dice);
+        }
+
+
+        private static void GameOver()
+        {
+            Console.WriteLine("  ");
+            Console.WriteLine("  ");
+            if (Board.Locations[50].Number == 15)
             {
                 Console.WriteLine("Congratulations Black has won the game!!!");
             }
@@ -34,153 +50,87 @@ namespace Backgammon.ConsoleUI
             {
                 Console.WriteLine("Congratulations White has won the game!!!");
             }
-            Console.ReadKey();
+            Console.WriteLine(" ");
+            Console.WriteLine("G A M E  O V E R!");
 
         }
 
-       
 
-        
-        public static void BoardRender()
+        private static void ChooseColors()
         {
-            Board = new Board(Dice); 
-            StringBuilder topPiece = new StringBuilder();
-            StringBuilder bottomPiece = new StringBuilder();
-            topPiece.Append("-----------------");
-            Console.WriteLine(topPiece.ToString());
-            int count = 23;
-            int dots = 7;
-            
-            for (int i = 0; i < 12; i++)
-            {
-                if (i==6)
-                {
-                    Console.WriteLine("|---------------|" + "   Pieces taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number);// +"Pieces taken off by the player; Black pieces =" + Board.Locations[26].Number + " White pieces =" + Board.Locations[27].Number);
-                }
-                StringBuilder piece = new StringBuilder();
-                piece.Append("|");
-                var zeroOrOne = Board.Locations[i].Colour;
-                var zeroOrOneC = Board.Locations[count].Colour;
-                if (zeroOrOne == Colours.White)
-                {
-                    for (int a = 0; a < Board.Locations[i].Number; a++)
-                    {
-                        piece.Append("0");
-                    }
-                }
-                else if (zeroOrOne == Colours.Black)
-                {
-                    for (int a = 0; a < Board.Locations[i].Number; a++)
-                    {
-                        piece.Append("1");
-                    }
-                }
-                for (int c = 0; c < dots - Board.Locations[i].Number; c++)
-                {
-                    piece.Append(".");
-                }
-                piece.Append("|");
-                for (int c = 0; c < dots - Board.Locations[count].Number; c++)
-                {
-                    piece.Append(".");
-                }
-                if (zeroOrOneC == Colours.White)
-                {
-                    for (int a = 0; a < Board.Locations[count].Number; a++)
-                    {
-                        piece.Append("0");
-                    }
-                }
-                else if (zeroOrOneC == Colours.Black)
-                {
-                    for (int a = 0; a < Board.Locations[count].Number; a++)
-                    {
-                        piece.Append("1");
-                    }
-                }
-                piece.Append("|");
-                count = count - 1;
-                Console.WriteLine(piece.ToString());
-            }
-            bottomPiece.Append("-----------------");
-            Console.WriteLine(bottomPiece.ToString());
+            var player1type = "";
+            var player2type = "";
+            var player1colour = Colours.Empty;
+            var player2colour = Colours.Empty;
+            var player1name = "";
+            var player2name = "";
 
-        }
-        public static void Move(Colours colour)
-        {
-            //iteration with the user only
-            //Must know which colour it is to roll dice.
-            //Check for end game before yous start
-            Console.Write("Press D to roll the Dice :");
-            Console.ReadKey();
-            Console.WriteLine();
-            var roll1 = Dice.Throw();
-            var roll2 = Dice.Throw();
-            Console.WriteLine("You rolled a "+roll1+" and a "+roll2);
-            //output dice           
-            if (Board.ValidMoves(colour, roll1).Count == 0 & Board.ValidMoves(colour,roll2).Count == 0)
+
+            Console.WriteLine("This is the player selection area");
+            Console.WriteLine("In this area you can select your colour,name and whether or not you want to play against a bot");
+            Console.WriteLine("For human vs human press H; For human vs bot press HB :");
+            var playerselect = Console.ReadLine();
+            if (playerselect.ToUpper() == "H")
             {
-                Console.WriteLine("No valid moves available");
-                return;
-            }
-            if (roll1 == roll2)
-            {
-                Console.WriteLine("You rolled a double! This means that you get 4 throws");
-                MoveOneDice(colour, roll1);
-                MoveOneDice(colour, roll2);
-                MoveOneDice(colour, roll1);
-                MoveOneDice(colour, roll2);
-                Game.Colourswapper(colour);
-                return;
-                
-            }
-            Console.WriteLine("Select the dice that you would like to use first roll number 1 or 2 :");
-            var dicePicker = Console.ReadLine();           
-            if (dicePicker == "1")
-            {
-                MoveOneDice(colour, roll1);
-                MoveOneDice(colour, roll2);
+                Console.WriteLine("You have selected human vs human!");
+                player1type = "Human";
+                player2type = "Human";
             }
             else
             {
-                MoveOneDice(colour, roll2);
-                MoveOneDice(colour, roll1);
+                Console.WriteLine("You have selected human vs bot");
+                Console.WriteLine("You can now customize the human player");
+                player1type = "Human";
+                player2type = "Bot";
             }
-            Game.Colourswapper(colour);
-            return;
-        }
-
-        public static void MoveOneDice(Colours colour, int roll)
-        {
-            var repeater = "notValid";
+            Console.WriteLine("Name player 1 :");
+            player1name = Console.ReadLine();
+            Console.WriteLine("Name player 2 :");
+            player2name = Console.ReadLine();
+            Console.WriteLine("Last step please pick a colour for player 1 player 2 will be the other colour");
+            var player1colourselect = "";
             do
             {
-                int pieceNumber = 0;
-                Console.WriteLine("If your piece has been taken you piece will come in on the dice you chose press 0 to continue in this case");
-                var availableMoves = Board.ValidLocationsPiecesCanGo(colour);
-                Console.WriteLine("Select a piece from the Board to move. E.G. press 1 to move the pieces in location 1 :");
-                pieceNumber = Convert.ToInt32(Console.ReadLine());
-                if (Board.executeMove(Globals.Gcolour, pieceNumber, roll) == "Valid")
-                {
-                    repeater = "Valid";                   
-                }
-                else if (Board.executeMove(Globals.Gcolour, pieceNumber, roll) == "No available moves")
-                {
-                    Console.WriteLine("No valid move available skipping turn");
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input press enter to restart selection process");
-                    Console.ReadKey();
-                }
-            } while (repeater == "notValid");
-            BoardOutputter();
-
-
-
+                Console.WriteLine("Select colour (b = black, w = white) :");
+                player1colourselect = Console.ReadLine();
+            } while (player1colourselect != "b" | player1colourselect != "w");
+            if (player1colourselect == "b")
+            {
+                Console.WriteLine("PLayer 1 has selected Black");
+                player1colour = Colours.Black;
+                Console.WriteLine("Player 2 is the colour White");
+                player2colour = Colours.White;
+            }
+            else
+            {
+                Console.WriteLine("PLayer 1 has selected White");
+                player1colour = Colours.White;
+                Console.WriteLine("Player 2 is the colour Black");
+                player2colour = Colours.Black;
+            }
+            if (player1type == "Human")
+            {
+                Player Player1 = new HumanPlayer(player1name, player1colour);
+            }
+            else
+            {
+                Player Player1 = new AutomatedPlayer1(player1name, player1colour);
+            }
+            if (player2type == "Human")
+            {
+                Player Player2 = new HumanPlayer(player2name, player2colour);
+            }
+            else
+            {
+                Player Player2 = new AutomatedPlayer1(player2name, player2colour);
+            }
+           
+                    
         }
-        public static void BoardOutputter()
+
+
+
+        private static void BoardOutputter()
         {
             StringBuilder topPiece = new StringBuilder();
             StringBuilder bottomPiece = new StringBuilder();
@@ -192,7 +142,7 @@ namespace Backgammon.ConsoleUI
             {
                 if (i == 6)
                 {
-                    Console.WriteLine("|---------------|" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number +" B:"+ Board.Locations[50].Number+" W:"+Board.Locations[51].Number);
+                    Console.WriteLine("|---------------|" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number + " B:" + Board.Locations[50].Number + " W:" + Board.Locations[51].Number);
                 }
                 StringBuilder piece = new StringBuilder();
                 piece.Append("|");
@@ -242,6 +192,6 @@ namespace Backgammon.ConsoleUI
             bottomPiece.Append("-----------------");
             Console.WriteLine(bottomPiece.ToString());
         }
-              
+
     }
 }

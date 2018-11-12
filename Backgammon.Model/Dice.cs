@@ -35,12 +35,22 @@ namespace Backgammon.Model
             return newThrow;
         }
     }
-    //public static DiceRollResult Roll()
+    //public static class PlayerDice
     //{
-    //    var result = new DiceRollResult();
-    //    result.Die1 = RNG.Next(1, 7);
-    //    result.Die2 = RandomNumberGenerator.Next(1, 7);
-    //    return result;
+    //    private static Random RandomNumberGenerator;
+
+    //    static PlayerDice()
+    //    {
+    //        RandomNumberGenerator = new Random();
+    //    }
+
+    //    public static DiceRollResult Roll()
+    //    {
+    //        var result = new DiceRollResult();
+    //        result.Die1 = RandomNumberGenerator.Next(1, 7);
+    //        result.Die2 = RandomNumberGenerator.Next(1, 7);
+    //        return result;
+    //    }
     //}
 
 

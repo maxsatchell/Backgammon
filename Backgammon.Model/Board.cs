@@ -150,6 +150,10 @@ namespace Backgammon.Model
         {
             return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Take(24).ToList();
         }
+        public List<int> ValidPieceLocations(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Value.Colour == colour).Select(kvp => kvp.Key).Take(24).ToList();
+        }
         public List<int> ValidLocationsPiecesCanGoWhenTakenWhite(Colours colour)
         {
             return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Take(6).ToList();
