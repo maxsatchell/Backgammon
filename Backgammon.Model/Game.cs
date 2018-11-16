@@ -13,30 +13,35 @@ namespace Backgammon.Model
         //if no valid moves available then flips back to the last player
         //returns the colour of which turn it is.
         public Colours Colour { get; private set; }
-        static Board Board { get; set; }
-        static Dice Dice { get; set; }
-        private Player Player1;
-        private Player Player2;
-        private Player Currentplayer;
+        private Board Board { get; set; }
+        static Dice Dice { get; set; }//Not static
+        private Player Player1 { get; }
+        private Player Player2 { get; }
+        private Player Currentplayer { get; set; }
 
 
-        public Game(Colours colour)
+        public Game(Player player1,Player player2,Player currentPlayer,Board board)
         {
-            Colour = colour;
+            Player1 = player1;
+            Player2 = player2;
+            Currentplayer = currentPlayer;
+            Board = board;
+     
         }
 
               
-        public static void Run(Player Player1,Player Player2)
-        {          
+        public void Run()
+        {
+            Dice = new Dice();
             var roll1 = Dice.Throw();
             var roll2 = Dice.Throw();
             
             
 
-            if (Board.ValidMoves(Currentplayer.Colour, roll1).Count == 0 & Board.ValidMoves(currentplayer.Colour, roll2).Count == 0)
+            if (Board.ValidMoves(Currentplayer.Colour, roll1).Count == 0 & Board.ValidMoves(Currentplayer.Colour, roll2).Count == 0)
             {
                 Console.WriteLine("No valid moves available");
-                Playerswapper(currentplayer);
+                Playerswapper(Currentplayer);
                 return;
             }
 
@@ -45,38 +50,41 @@ namespace Backgammon.Model
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Currentplayer.RollSelector(roll1, roll2, currentplayer);
-                    var piecelocation = Currentplayer.ChoosePiece(roll1, currentplayer);
-                    Board.executeMove(currentplayer.Colour, piecelocation, roll1);
+                    Currentplayer.RollSelector(roll1, roll2, Currentplayer);
+                    var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
+                    Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
+                    Currentplayer.UpdatePlayer();
                 }
             }
             else
             {
-                var diceselection = currentplayer.RollSelector(roll1, roll2, currentplayer);
+                var diceselection = Currentplayer.RollSelector(roll1, roll2, Currentplayer);
                 if (diceselection == roll1)
                 {
-                    var piecelocation = currentplayer.ChoosePiece(roll1, currentplayer);
-                    Board.executeMove(currentplayer.Colour, piecelocation, roll1);
-                    var piecelocation2 = currentplayer.ChoosePiece(roll2, currentplayer);
-                    Board.executeMove(currentplayer.Colour, piecelocation2, roll2);
+                    var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
+                    Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
+                    Currentplayer.UpdatePlayer();
+                    var piecelocation2 = Currentplayer.ChoosePiece(roll2, Currentplayer);
+                    Board.executeMove(Currentplayer.Colour, piecelocation2, roll2);
                 }
                 else
                 {
-                    var piecelocation = currentplayer.ChoosePiece(roll2, currentplayer);
-                    Board.executeMove(currentplayer.Colour, piecelocation, roll2);
-                    var piecelocation2 = currentplayer.ChoosePiece(roll1, currentplayer);
-                    Board.executeMove(currentplayer.Colour, piecelocation2, roll1);
+                    var piecelocation = Currentplayer.ChoosePiece(roll2, Currentplayer);
+                    Board.executeMove(Currentplayer.Colour, piecelocation, roll2);
+                    Currentplayer.UpdatePlayer();
+                    var piecelocation2 = Currentplayer.ChoosePiece(roll1, Currentplayer);
+                    Board.executeMove(Currentplayer.Colour, piecelocation2, roll1);
                 }
             }
 
-            Playerswapper(currentplayer);
+            Playerswapper(Currentplayer);
 
 
 
         }
 
 
-        public static void Playerswapper(Player currentplayer)//Make this player swapper
+        public void Playerswapper(Player currentplayer)//Make this player swapper
         {
             if (currentplayer == Player1)
             {

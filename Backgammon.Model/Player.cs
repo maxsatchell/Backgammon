@@ -13,10 +13,12 @@ namespace Backgammon.Model
         //concrete subclass called human player
         public Colours Colour { get;  set; }
         public string Name { get;  private set; }
-        public Player(string name, Colours colour)
+        public Board Board { get; set; }
+        public Player(string name, Colours colour,Board board)
         {
             Colour = colour;
-            Name = name;          
+            Name = name;
+            Board = board;
         }
 
         //public void RollDice()
@@ -29,6 +31,8 @@ namespace Backgammon.Model
         public abstract int ChoosePiece(int roll,Player currentplayer);
 
         public abstract int RollSelector(int roll1, int roll2, Player currentplayer);
+
+        public abstract void UpdatePlayer();
 
     }
 }

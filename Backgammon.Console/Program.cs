@@ -12,21 +12,30 @@ namespace Backgammon.ConsoleUI
     {
         static Board Board{ get; set; }
         static Dice Dice { get; set; }
+        static Game Game { get; set; }
+        static Player Player1 { get; set; }
+        static Player Player2 { get; set; }
+        static Player Currentplayer { get; set; }
+
         static void Main(string[] args)
         {
             StartNewGame();
             ChooseColors();
-            while (true)//End game condition here that can be looked at 
-            {
 
+            while (Board.Locations[50].Number < 15 || Board.Locations[51].Number < 15)//End game condition here that can be looked at 
+            {
+                BoardOutputter();
+                Game.Run();
             }
+
+            GameOver();
             
 
         }
-        private void UpdatePlayer()
+        private static void UpdatePlayer()
         {
             Console.WriteLine(" ");
-            Console.WriteLine("Current player is " + Currentplayer.Colour);
+            Console.WriteLine("Current player is " );
         }
 
 
@@ -64,6 +73,10 @@ namespace Backgammon.ConsoleUI
             var player2colour = Colours.Empty;
             var player1name = "";
             var player2name = "";
+            var selection = false;
+            var player1colourselect = "";
+            
+    
 
 
             Console.WriteLine("This is the player selection area");
@@ -88,12 +101,26 @@ namespace Backgammon.ConsoleUI
             Console.WriteLine("Name player 2 :");
             player2name = Console.ReadLine();
             Console.WriteLine("Last step please pick a colour for player 1 player 2 will be the other colour");
-            var player1colourselect = "";
+     
             do
             {
                 Console.WriteLine("Select colour (b = black, w = white) :");
                 player1colourselect = Console.ReadLine();
-            } while (player1colourselect != "b" | player1colourselect != "w");
+                if (player1colourselect == "b")
+                {
+                    selection = true;
+                }
+                else if (player1colourselect == "w")
+                {
+                    selection = true;
+                }
+                else
+                {
+                    selection = false;
+                }
+            } while (selection == false);
+
+
             if (player1colourselect == "b")
             {
                 Console.WriteLine("PLayer 1 has selected Black");
@@ -110,21 +137,27 @@ namespace Backgammon.ConsoleUI
             }
             if (player1type == "Human")
             {
-                Player Player1 = new HumanPlayer(player1name, player1colour);
+                Player1 = new HumanPlayer(player1name, player1colour,Board);
             }
             else
             {
-                Player Player1 = new AutomatedPlayer1(player1name, player1colour);
+                Player1 = new AutomatedPlayer1(player1name, player1colour,Board);
             }
             if (player2type == "Human")
             {
-                Player Player2 = new HumanPlayer(player2name, player2colour);
+                 Player2 = new HumanPlayer(player2name, player2colour,Board);
             }
             else
             {
-                Player Player2 = new AutomatedPlayer1(player2name, player2colour);
+                 Player2 = new AutomatedPlayer1(player2name, player2colour,Board);
             }
-           
+
+            Currentplayer = Player1;
+
+            Game = new Game(Player1, Player2, Currentplayer,Board);
+         
+            
+            
                     
         }
 
