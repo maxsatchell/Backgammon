@@ -62,6 +62,16 @@ namespace Backgammon.ConsoleUI
             do
             {
                 Console.WriteLine("Select the dice that you would like to use first.");
+                if (Board.ValidMoves(currentplayer.Colour, roll1).Count == 0 & Board.ValidMoves(currentplayer.Colour, roll2).Count < 0)
+                {
+                    Console.WriteLine("You have not got any available moves with " + roll1);
+                    Console.WriteLine("Please select the dice " + roll2 + " to begin with");
+                }
+                else if (Board.ValidMoves(currentplayer.Colour, roll2).Count == 0 & Board.ValidMoves(currentplayer.Colour, roll1).Count < 0)
+                {
+                    Console.WriteLine("You have not got any available moves with " + roll2);
+                    Console.WriteLine("Please select the dice " + roll1 + " to begin with");
+                }
                 Console.WriteLine("To select the dice you would like to use first press the number that it is : ");
                 var dicePicker = Console.ReadLine();
                 var diceCheckone = Convert.ToString(roll1);
@@ -147,6 +157,17 @@ namespace Backgammon.ConsoleUI
             Console.WriteLine(bottomPiece.ToString());
         }
 
+        public override void RollChange(int roll)
+        {
+            Console.WriteLine("There are no available moves on the dice you have selected!");
+            Console.WriteLine("But there are availble moves with the other roll "+roll);
+            Console.WriteLine(roll + " is the dice you have now selected");
+        }
+
+        public override void NoValidMoves()
+        {
+            Console.WriteLine("There are no valid moves available switching turn");
+        }
     }
 }
 

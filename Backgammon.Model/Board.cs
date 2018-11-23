@@ -187,14 +187,14 @@ namespace Backgammon.Model
             }          
            
         }
-        //program all valid moves whislt taken next.
+
         public List<int> ValidLocationsPiecesCanGo(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Value.Colour == colour || kvp.Value.Number <= 1).Select(kvp => kvp.Key).Take(24).ToList();
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
         }
         public List<int> ValidPieceLocations(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Value.Colour == colour).Select(kvp => kvp.Key).Take(24).ToList();
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour)).Select(kvp => kvp.Key).ToList();
         }
         public List<int> ValidLocationsPiecesCanGoWhenTakenWhite(Colours colour)
         {
@@ -204,6 +204,11 @@ namespace Backgammon.Model
         {
             return Locations.Where(kvp => kvp.Key >= 17 & kvp.Key <=23 &(kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
         }
+        public List<int> ExposedPieces(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
+        }
+
         public void executeMove(Colours colour, int piecelocation, int diceValue)
         {
             //roll dice
@@ -298,7 +303,7 @@ namespace Backgammon.Model
             }
             if (colour == Colours.White & availableLocations.Contains(piecelocation + diceValue))//used when exposed
             {
-                //this will mean the not gcoulor will be added to a location out of board only to be brought in when it can with the help of avilable exposed moves.
+                
                 var fromLocation = Locations[piecelocation];
                 fromLocation.RemoveOnePiece();
 
@@ -320,7 +325,6 @@ namespace Backgammon.Model
             }
             else if (colour == Colours.Black & availableLocations.Contains(piecelocation - diceValue))//used when exposed
             {
-                //this will mean the not gcoulor will be added to a location out of board only to be brought in when it can with the help of avilable exposed moves.
                 var fromLocation = Locations[piecelocation];
                 fromLocation.RemoveOnePiece();
                 var toLocation = Locations[piecelocation - diceValue];

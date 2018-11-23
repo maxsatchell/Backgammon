@@ -40,7 +40,7 @@ namespace Backgammon.Model
 
             if (Board.ValidMoves(Currentplayer.Colour, roll1).Count == 0 & Board.ValidMoves(Currentplayer.Colour, roll2).Count == 0)
             {
-                Console.WriteLine("No valid moves available");
+                Currentplayer.NoValidMoves();
                 Playerswapper(Currentplayer);
                 return;
             }
@@ -51,6 +51,12 @@ namespace Backgammon.Model
                 for (int i = 0; i < 4; i++)
                 {
                     Currentplayer.RollSelector(roll1, roll2, Currentplayer);
+                    if (Board.ValidMoves(Currentplayer.Colour, roll1).Count == 0)
+                    {
+                        Currentplayer.NoValidMoves();
+                        Playerswapper(Currentplayer);
+                        return;
+                    }
                     var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
                     Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
                     if (Board.GameFinished() == true)
@@ -65,27 +71,96 @@ namespace Backgammon.Model
                 var diceselection = Currentplayer.RollSelector(roll1, roll2, Currentplayer);
                 if (diceselection == roll1)
                 {
-                    var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
-                    Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
-                    if (Board.GameFinished() == true)
+                    if (Board.ValidMoves(Currentplayer.Colour,roll1).Count == 0 & Board.ValidMoves(Currentplayer.Colour, roll2).Count > 0)
                     {
-                        return;
+                        Currentplayer.RollChange(roll2);
+                        var piecelocation = Currentplayer.ChoosePiece(roll2, Currentplayer);
+                        Board.executeMove(Currentplayer.Colour, piecelocation, roll2);
+                        if (Board.GameFinished() == true)
+                        {
+                            return;
+                        }
+                        if (Board.ValidMoves(Currentplayer.Colour,roll1).Count == 0)
+                        {
+                            Currentplayer.NoValidMoves();
+                            Playerswapper(Currentplayer);
+                            return;
+                        }
+                        else
+                        {
+                            var piecelocation2 = Currentplayer.ChoosePiece(roll1, Currentplayer);
+                            Board.executeMove(Currentplayer.Colour, piecelocation2, roll1);
+                        }
                     }
-                    Currentplayer.UpdatePlayer();
-                    var piecelocation2 = Currentplayer.ChoosePiece(roll2, Currentplayer);
-                    Board.executeMove(Currentplayer.Colour, piecelocation2, roll2);
+                    else
+                    {
+                        var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
+                        Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
+                        if (Board.GameFinished() == true)
+                        {
+                            return;
+                        }
+                        Currentplayer.UpdatePlayer();
+                        if (Board.ValidMoves(Currentplayer.Colour, roll2).Count == 0)
+                        {
+                            Currentplayer.NoValidMoves();
+                            Playerswapper(Currentplayer);
+                            return;
+                        }
+                        else
+                        {
+                            var piecelocation2 = Currentplayer.ChoosePiece(roll2, Currentplayer);
+                            Board.executeMove(Currentplayer.Colour, piecelocation2, roll2);
+                        }
+                                               
+                    }                 
                 }
                 else
                 {
-                    var piecelocation = Currentplayer.ChoosePiece(roll2, Currentplayer);
-                    Board.executeMove(Currentplayer.Colour, piecelocation, roll2);
-                    if (Board.GameFinished() == true)
+                    if (Board.ValidMoves(Currentplayer.Colour, roll2).Count == 0 & Board.ValidMoves(Currentplayer.Colour, roll1).Count > 0)
                     {
-                        return;
+                        Currentplayer.RollChange(roll1);
+                        var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
+                        Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
+                        if (Board.GameFinished() == true)
+                        {
+                            return;
+                        }
+                        if (Board.ValidMoves(Currentplayer.Colour, roll2).Count == 0)
+                        {
+                            Currentplayer.NoValidMoves();
+                            Playerswapper(Currentplayer);
+                            return;
+                        }
+                        else
+                        {
+                            var piecelocation2 = Currentplayer.ChoosePiece(roll2, Currentplayer);
+                            Board.executeMove(Currentplayer.Colour, piecelocation2, roll2);
+                        }
                     }
-                    Currentplayer.UpdatePlayer();
-                    var piecelocation2 = Currentplayer.ChoosePiece(roll1, Currentplayer);
-                    Board.executeMove(Currentplayer.Colour, piecelocation2, roll1);
+                    else
+                    {
+                        var piecelocation = Currentplayer.ChoosePiece(roll2, Currentplayer);
+                        Board.executeMove(Currentplayer.Colour, piecelocation, roll2);
+                        if (Board.GameFinished() == true)
+                        {
+                            return;
+                        }
+                        Currentplayer.UpdatePlayer();
+                        if (Board.ValidMoves(Currentplayer.Colour, roll1).Count == 0)
+                        {
+                            Currentplayer.NoValidMoves();
+                            Playerswapper(Currentplayer);
+                            return;
+                        }
+                        else
+                        {
+                            var piecelocation2 = Currentplayer.ChoosePiece(roll1, Currentplayer);
+                            Board.executeMove(Currentplayer.Colour, piecelocation2, roll1);
+                        }
+                      
+                    }
+                    
                 }
             }
 

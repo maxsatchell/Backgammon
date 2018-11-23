@@ -21,18 +21,15 @@ namespace Backgammon.Model
             Board = board;
         }
 
-        //public void RollDice()
-        //{
-        //    var roll1 = PlayerDice.Roll();
-        //    var roll2 = PlayerDice.Roll();
-            
-        //}
-        //pass dice value and expect back pieceloaction 
+        
         public abstract int ChoosePiece(int roll,Player currentplayer);
 
         public abstract int RollSelector(int roll1, int roll2, Player currentplayer);
 
         public abstract void UpdatePlayer();
 
+        public abstract void RollChange(int roll);
+
+        public abstract void NoValidMoves();
     }
 }

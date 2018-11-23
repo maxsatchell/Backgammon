@@ -28,6 +28,7 @@ namespace Backgammon.ConsoleUI
                 Game.Run();
             }
 
+            BoardOutputter();
             GameOver();
             Console.ReadKey();
 
@@ -75,27 +76,115 @@ namespace Backgammon.ConsoleUI
             var player2name = "";
             var selection = false;
             var player1colourselect = "";
-            
-    
+            var repeater = false;
+            var player1botselection = "";
+            var player2botselection = "";
+            var botselectionrepeater1 = false;
+            var botselectionrepeater2 = false;
+
 
 
             Console.WriteLine("This is the player selection area");
             Console.WriteLine("In this area you can select your colour,name and whether or not you want to play against a bot");
-            Console.WriteLine("For human vs human press H; For human vs bot press HB :");
-            var playerselect = Console.ReadLine();
-            if (playerselect.ToUpper() == "H")
+            do
             {
-                Console.WriteLine("You have selected human vs human!");
-                player1type = "Human";
-                player2type = "Human";
-            }
-            else
-            {
-                Console.WriteLine("You have selected human vs bot");
-                Console.WriteLine("You can now customize the human player");
-                player1type = "Human";
-                player2type = "Bot";
-            }
+                Console.WriteLine("For human vs human press H; For human vs bot press HB; For bot vs bot press B :");
+                var playerselect = Console.ReadLine();
+                if (playerselect.ToUpper() == "H")
+                {
+                    Console.WriteLine("You have selected human vs human!");
+                    Console.WriteLine("You can now customize the players");
+                    player1type = "Human";
+                    player2type = "Human";
+                    repeater = true;
+                }
+                else if (playerselect.ToUpper() == "B")
+                {
+                    
+                    Console.WriteLine("You have selected bot vs bot");
+                    Console.WriteLine("You can now customize the players");
+                    Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot)");
+                    do
+                    {
+                        Console.WriteLine("Select Player 1s bot type :");
+                        player1botselection = Console.ReadLine();
+                        if (player1botselection.ToUpper() == "B")
+                        {
+                            player1type = "Basic Bot";
+                            botselectionrepeater1 = true;
+                        }
+                        else if (player1botselection.ToUpper() == "D")
+                        {
+                            player1type = "Defensive Bot";
+                            botselectionrepeater1 = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect input restarting bot selection process");
+                            botselectionrepeater1 = false;
+                        }
+                    } while (botselectionrepeater1 == false);
+
+
+                    do
+                    {
+                        Console.WriteLine("Select Player 2s bot type :");
+                        player2botselection = Console.ReadLine();
+                        if (player2botselection.ToUpper() == "B")
+                        {
+                            player2type = "Basic Bot";
+                            botselectionrepeater2 = true;
+                        }
+                        else if (player2botselection.ToUpper() == "D")
+                        {
+                            player2type = "Defensive Bot";
+                            botselectionrepeater2 = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect input restarting bot selection process");
+                            botselectionrepeater2 = false;
+                        }
+                    } while (botselectionrepeater2 == false);
+
+                    repeater = true;
+                }
+                else if (playerselect.ToUpper() == "HB")
+                {
+                    Console.WriteLine("You have selected human vs bot");
+                    Console.WriteLine("You can now customize the players");
+                    player1type = "Human";
+                    Console.WriteLine("Player 1 is human");
+                    Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot)");
+                    do
+                    {
+                        Console.WriteLine("Select Players bot type :");
+                        player1botselection = Console.ReadLine();
+                        if (player1botselection.ToUpper() == "B")
+                        {
+                            player1type = "Basic Bot";
+                            botselectionrepeater1 = true;
+                        }
+                        else if (player1botselection.ToUpper() == "D")
+                        {
+                            player1type = "Defensive Bot";
+                            botselectionrepeater1 = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect input restarting bot selection process");
+                            botselectionrepeater1 = false;
+                        }
+                    } while (botselectionrepeater1 == false);
+                    repeater = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection restarting player selection process");
+                    repeater = false;
+                }
+            } while (repeater == false);
+            
             Console.WriteLine("Name player 1 :");
             player1name = Console.ReadLine();
             Console.WriteLine("Name player 2 :");
@@ -139,19 +228,26 @@ namespace Backgammon.ConsoleUI
             {
                 Player1 = new HumanPlayer(player1name, player1colour,Board);
             }
+            else if (player1type == "Basic Bot")
+            {
+                Player1 = new AutomatedPlayer1(player1name, player1colour, Board);
+            }
             else
             {
-                Player1 = new AutomatedPlayer1(player1name, player1colour,Board);
+                Player1 = new AutomatedPlayer2(player1name, player1colour, Board);
             }
             if (player2type == "Human")
             {
                  Player2 = new HumanPlayer(player2name, player2colour,Board);
             }
-            else
+            else if(player2type == "Basic Bot")
             {
                  Player2 = new AutomatedPlayer1(player2name, player2colour,Board);
             }
-
+            else
+            {
+                Player2 = new AutomatedPlayer2(player2name, player2colour, Board);
+            }
             Currentplayer = Player1;
 
             Game = new Game(Player1, Player2, Currentplayer,Board);
