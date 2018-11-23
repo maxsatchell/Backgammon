@@ -53,6 +53,10 @@ namespace Backgammon.Model
                     Currentplayer.RollSelector(roll1, roll2, Currentplayer);
                     var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
                     Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
+                    if (Board.GameFinished() == true)
+                    {
+                        return;
+                    }
                     Currentplayer.UpdatePlayer();
                 }
             }
@@ -63,6 +67,10 @@ namespace Backgammon.Model
                 {
                     var piecelocation = Currentplayer.ChoosePiece(roll1, Currentplayer);
                     Board.executeMove(Currentplayer.Colour, piecelocation, roll1);
+                    if (Board.GameFinished() == true)
+                    {
+                        return;
+                    }
                     Currentplayer.UpdatePlayer();
                     var piecelocation2 = Currentplayer.ChoosePiece(roll2, Currentplayer);
                     Board.executeMove(Currentplayer.Colour, piecelocation2, roll2);
@@ -71,6 +79,10 @@ namespace Backgammon.Model
                 {
                     var piecelocation = Currentplayer.ChoosePiece(roll2, Currentplayer);
                     Board.executeMove(Currentplayer.Colour, piecelocation, roll2);
+                    if (Board.GameFinished() == true)
+                    {
+                        return;
+                    }
                     Currentplayer.UpdatePlayer();
                     var piecelocation2 = Currentplayer.ChoosePiece(roll1, Currentplayer);
                     Board.executeMove(Currentplayer.Colour, piecelocation2, roll1);

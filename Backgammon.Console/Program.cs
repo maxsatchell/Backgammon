@@ -22,14 +22,14 @@ namespace Backgammon.ConsoleUI
             StartNewGame();
             ChooseColors();
 
-            while (Board.Locations[50].Number < 15 || Board.Locations[51].Number < 15)//End game condition here that can be looked at 
+            while (Board.Locations[50].Number < 15 & Board.Locations[51].Number < 15)//End game condition here that can be looked at 
             {
                 BoardOutputter();
                 Game.Run();
             }
 
             GameOver();
-            
+            Console.ReadKey();
 
         }
         private static void UpdatePlayer()

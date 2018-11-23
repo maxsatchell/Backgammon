@@ -17,11 +17,16 @@ namespace Backgammon.Model
 
         public override int ChoosePiece(int roll,Player currentplayer)
         {
-            var availableLocationsToTakeFrom = Board.ValidPieceLocations(currentplayer.Colour);
+                var validMoves = Board.ValidMoves(currentplayer.Colour, roll);       
+                              
+                if (validMoves.Count == 0)
+                {
+                    return 100;                                      
+                }
+                int randomLocation = rnd.Next(validMoves.Count);
+                int selection = validMoves[randomLocation];
+                return selection;
 
-            var list = Board.ValidMoves(currentplayer.Colour, roll);//valid moves is the location that is valid not the location taken from
-            int r = rnd.Next(list.Count);
-            return r;
         }
 
         public override int RollSelector(int roll1, int roll2, Player currentplayer)

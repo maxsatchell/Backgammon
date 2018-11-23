@@ -21,15 +21,14 @@ namespace Backgammon.ConsoleUI
             var checker = Board.ValidMoves(currentplayer.Colour, roll);
             var validSelection = false;
             int locationidentifier = 0;
-            var availableLocationsToTakeFrom = Board.ValidPieceLocations(currentplayer.Colour);
             do
             {
-                Console.WriteLine("If your piece has been taken your piece will come in on the dice you chose press 0 to continue in this case");
+                Console.WriteLine("If your piece has been taken your piece will come in on the dice you chose in this case select the location corresponding to this dice roll");
 
                 Console.WriteLine("Select a piece from the Board to move. E.G. press 1 to move the pieces in location 1 :");
                 var piecelocation = Console.ReadLine();
                 locationidentifier = Convert.ToInt32(piecelocation);
-                if (availableLocationsToTakeFrom.Contains(locationidentifier) & checker.Contains(locationidentifier + roll))
+                if (checker.Contains(locationidentifier))
                 {
                     validSelection = true;
                 }
@@ -69,12 +68,12 @@ namespace Backgammon.ConsoleUI
                 var diceChecktwo = Convert.ToString(roll2);
                 if (dicePicker == diceCheckone)
                 {
-                    Console.WriteLine("You have selected the dice " + diceCheckone + " your next roll will be with the other dice");
+                    Console.WriteLine("You have selected the dice " + diceCheckone + " your next roll will be with " + diceChecktwo);
                     return roll1;
                 }
                 else if (dicePicker == diceChecktwo)
                 {
-                    Console.WriteLine("You have selected the dice " + diceChecktwo + " your next roll will be with the other dice");
+                    Console.WriteLine("You have selected the dice " + diceChecktwo + " your next roll will be with "+ diceCheckone);
                     return roll2;
                 }
                 else
