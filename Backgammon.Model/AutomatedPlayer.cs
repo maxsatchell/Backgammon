@@ -8,7 +8,6 @@ namespace Backgammon.Model
 {
     public class AutomatedPlayer1 : Player
     {
-        private Board Board { get; set; }
         private Random rnd = new Random();
         public AutomatedPlayer1(string name, Colours colour, Board board) : base(name, colour, board)
         {

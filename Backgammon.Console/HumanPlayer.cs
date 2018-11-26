@@ -24,7 +24,6 @@ namespace Backgammon.ConsoleUI
             do
             {
                 Console.WriteLine("If your piece has been taken your piece will come in on the dice you chose in this case select the location corresponding to this dice roll");
-
                 Console.WriteLine("Select a piece from the Board to move. E.G. press 1 to move the pieces in location 1 :");
                 var piecelocation = Console.ReadLine();
                 locationidentifier = Convert.ToInt32(piecelocation);
