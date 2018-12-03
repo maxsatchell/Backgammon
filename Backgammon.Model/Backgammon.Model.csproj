@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AutomatedPlayer.cs" />
     <Compile Include="AutomatedPlayer2.cs" />
+    <Compile Include="AutomatedPlayer3.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Colours.cs" />
     <Compile Include="Dice.cs" />

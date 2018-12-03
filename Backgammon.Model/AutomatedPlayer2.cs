@@ -18,12 +18,12 @@ namespace Backgammon.Model
         {
             List<int> validExposedMoves = new List<int>();
             List<int> validSafeMoves = new List<int>();
-            var exposedpieceslocations = Board.ExposedPieces(currentplayer.Colour);
-            var safeLocations = Board.ValidPieceLocations(currentplayer.Colour);
+            var exposedPiecesLocations = Board.ExposedPieces(currentplayer.Colour);
+            var safeLocations = Board.ValidPieceLocationsColour(currentplayer.Colour);//All locations where it is your colour
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
             if (currentplayer.Colour == Colours.Black)
             {
-                foreach (var location in exposedpieceslocations)
+                foreach (var location in exposedPiecesLocations)
                 {
                     var locator = location - roll;
                     if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))
@@ -34,7 +34,7 @@ namespace Backgammon.Model
                 foreach (var location in safeLocations)
                 {
                     var locator = location - roll;
-                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))
+                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator))
                     {
                         validSafeMoves.Add(location);
                     }
@@ -60,7 +60,7 @@ namespace Backgammon.Model
             }
             else 
             {
-                foreach (var location in exposedpieceslocations)
+                foreach (var location in exposedPiecesLocations)
                 {
                     var locator = location + roll;
                     if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))

@@ -192,7 +192,7 @@ namespace Backgammon.Model
         {
             return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
         }
-        public List<int> ValidPieceLocations(Colours colour)
+        public List<int> ValidPieceLocationsColour(Colours colour)
         {
             return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour)).Select(kvp => kvp.Key).ToList();
         }
@@ -207,6 +207,59 @@ namespace Backgammon.Model
         public List<int> ExposedPieces(Colours colour)
         {
             return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
+        }
+        public List<int> StackGreaterThanFour(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Number >= 4)).Select(kvp => kvp.Key).ToList();
+        }
+
+        public List<Tuple<int, int>> DoubleMoves(int roll1, int roll2, Player currentplayer)
+        {
+            List<Tuple<int, int>> results = new List<Tuple<int, int>>();
+           var difference = 0;
+            var smallerRoll = 0;
+            var locationsOfAllPieces = ValidPieceLocationsColour(currentplayer.Colour);
+            List<int> validDifferenceeBetweenLocations = new List<int>();
+            if (roll1 > roll2)
+            {
+                difference = roll1 - roll2;
+            }
+            else
+            {
+                difference = roll2 - roll1;
+            }
+            if (roll1 < roll2)
+            {
+                smallerRoll = roll1;
+            }
+            else
+            {
+                smallerRoll = roll2;
+            }
+            if (currentplayer.Colour == Colours.Black)
+            {
+                foreach (var location in locationsOfAllPieces)
+                {
+                    if (ValidPieceLocationsColour(currentplayer.Colour).Contains(location + difference) & ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(location - smallerRoll))
+                    {
+                        //tuple.add location and location + differnce
+                        results.Add(Tuple.Create(location, location + difference));
+                    }
+                }
+            }
+            else
+            {
+                foreach (var location in locationsOfAllPieces)
+                {
+                    if (ValidPieceLocationsColour(currentplayer.Colour).Contains(location - difference) & ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(location + smallerRoll))
+                    {
+                        //tuple.add location and location - differnce
+                        results.Add(Tuple.Create(location, location - difference));
+                    }
+                }
+            }
+            return results;
+            
         }
 
         public void executeMove(Colours colour, int piecelocation, int diceValue)
