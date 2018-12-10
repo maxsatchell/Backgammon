@@ -213,10 +213,10 @@ namespace Backgammon.Model
             return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Number >= 4)).Select(kvp => kvp.Key).ToList();
         }
 
-        public List<Tuple<int, int>> DoubleMoves(int roll1, int roll2, Player currentplayer)
+        public List<Tuple<bool,int, int>> DoubleMoves(int roll1, int roll2, Player currentplayer)
         {
-            List<Tuple<int, int>> results = new List<Tuple<int, int>>();
-           var difference = 0;
+            List<Tuple<bool,int, int>> results = new List<Tuple<bool,int, int>>();
+            var difference = 0;
             var smallerRoll = 0;
             var locationsOfAllPieces = ValidPieceLocationsColour(currentplayer.Colour);
             List<int> validDifferenceeBetweenLocations = new List<int>();
@@ -243,7 +243,7 @@ namespace Backgammon.Model
                     if (ValidPieceLocationsColour(currentplayer.Colour).Contains(location + difference) & ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(location - smallerRoll))
                     {
                         //tuple.add location and location + differnce
-                        results.Add(Tuple.Create(location, location + difference));
+                        results.Add(Tuple.Create(true,location, location + difference));
                     }
                 }
             }
@@ -254,7 +254,7 @@ namespace Backgammon.Model
                     if (ValidPieceLocationsColour(currentplayer.Colour).Contains(location - difference) & ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(location + smallerRoll))
                     {
                         //tuple.add location and location - differnce
-                        results.Add(Tuple.Create(location, location - difference));
+                        results.Add(Tuple.Create(true, location, location - difference));
                     }
                 }
             }

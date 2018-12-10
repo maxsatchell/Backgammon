@@ -14,7 +14,7 @@ namespace Backgammon.Model
             Board = board;
         }
 
-        public override int ChoosePiece(int roll, Player currentplayer)
+        public override int ChoosePiece(int roll, Player currentplayer,int moveCount, Tuple<bool,int, int> doubleMove)
         {
             List<int> validExposedMoves = new List<int>();
             List<int> validSafeMoves = new List<int>();
@@ -106,7 +106,7 @@ namespace Backgammon.Model
         {
         }
 
-        public override int RollSelector(int roll1, int roll2, Player currentplayer)
+        public override int RollSelector(int roll1, int roll2, Player currentplayer,int moveCount)
         {
             if (Board.ValidMoves(currentplayer.Colour, roll1).Count == 0 & Board.ValidMoves(currentplayer.Colour, roll2).Count > 0)
             {

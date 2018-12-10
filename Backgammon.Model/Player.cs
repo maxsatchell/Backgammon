@@ -22,9 +22,9 @@ namespace Backgammon.Model
         }
 
         
-        public abstract int ChoosePiece(int roll,Player currentplayer);
+        public abstract int ChoosePiece(int roll,Player currentplayer,int movecCount,Tuple<bool,int, int> doubleMove);
 
-        public abstract int RollSelector(int roll1, int roll2, Player currentplayer);
+        public abstract int RollSelector(int roll1, int roll2, Player currentplayer,int moveCount);
 
         public abstract void UpdatePlayer();
 

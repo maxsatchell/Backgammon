@@ -6,46 +6,11 @@ using System.Threading.Tasks;
 
 namespace Backgammon.Model
 {
-    public class AutomatedPlayer1 : Player
+    public abstract class AutomatedPlayer : Player
     {
-        private Random rnd = new Random();
-        public AutomatedPlayer1(string name, Colours colour, Board board) : base(name, colour, board)
-        {
-            Board = board;
-        }
-
-        public override int ChoosePiece(int roll,Player currentplayer)
-        {
-                var validMoves = Board.ValidMoves(currentplayer.Colour, roll);       
-                int randomLocation = rnd.Next(validMoves.Count);
-                int selection = validMoves[randomLocation];
-                return selection;
-
-        }
-
-        public override int RollSelector(int roll1, int roll2, Player currentplayer)
-        {
-            if (Board.ValidMoves(currentplayer.Colour, roll1).Count == 0 & Board.ValidMoves(currentplayer.Colour, roll2).Count > 0)
-            {
-                return roll2;
-            }
-            else
-            {
-                return roll1;
-            }
-               
-        }
-
-        public override void UpdatePlayer()
+        public AutomatedPlayer(string name, Colours colour, Board board) : base(name, colour, board)
         {
         }
-
-        public override void RollChange(int roll)
-        {
-        }
-
-        public override void NoValidMoves()
-        {
-        }
+      
     }
 }

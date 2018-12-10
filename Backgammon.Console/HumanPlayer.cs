@@ -16,7 +16,7 @@ namespace Backgammon.ConsoleUI
             Board = board;
         }
 
-        public override int ChoosePiece(int roll,Player currentplayer)
+        public override int ChoosePiece(int roll,Player currentplayer,int movecount,Tuple<bool,int,int> results)
         {
             var checker = Board.ValidMoves(currentplayer.Colour, roll);
             var validSelection = false;
@@ -50,7 +50,7 @@ namespace Backgammon.ConsoleUI
         }
 
 
-        public override int RollSelector(int roll1, int roll2, Player currentplayer)
+        public override int RollSelector(int roll1, int roll2, Player currentplayer,int movecount)
         {
             OutputDice(roll1, roll2);
             if (roll1 == roll2)
