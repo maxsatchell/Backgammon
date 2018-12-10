@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="AutomatedPlayer1.cs" />
     <Compile Include="AutomatedPlayer2.cs" />
-    <Compile Include="AutomatedPlayer3.cs" />
+    <Compile Include="AutomatedPlayer3A.cs" />
     <Compile Include="AutomatedPlayer3B.cs" />
     <Compile Include="AutomatedPlayer.cs" />
     <Compile Include="Board.cs" />

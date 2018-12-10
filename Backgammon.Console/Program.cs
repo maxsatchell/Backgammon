@@ -268,7 +268,7 @@ namespace Backgammon.ConsoleUI
             }
             else if (player1type == "Advanced Defensive Bot")
             {
-                Player1 = new AutomatedPlayer3(player1name, player1colour, Board);
+                Player1 = new AutomatedPlayer3A(player1name, player1colour, Board);
             }
             else
             {
@@ -291,7 +291,7 @@ namespace Backgammon.ConsoleUI
             }
             else if (player2type == "Advanced Defensive Bot")
             {
-                Player2 = new AutomatedPlayer3(player2name, player2colour, Board);
+                Player2 = new AutomatedPlayer3A(player2name, player2colour, Board);
             }
             else
             {

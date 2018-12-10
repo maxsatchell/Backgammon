@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backgammon.Model
 {
-    public class AutomatedPlayer3B : AutomatedPlayer3
+    public class AutomatedPlayer3B : AutomatedPlayer3A
     {
         private Random rnd = new Random();
         public AutomatedPlayer3B(string name, Colours colour, Board board) : base(name, colour, board)
