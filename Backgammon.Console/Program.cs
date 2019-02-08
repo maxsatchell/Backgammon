@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Backgammon.Model;
 using Fixtures;
+using System.IO;
 
 namespace Backgammon.ConsoleUI
 {
     public class Program
     {
-        static Board Board{ get; set; }
+        static Board Board { get; set; }
         static Dice Dice { get; set; }
         static Game Game { get; set; }
         static Player Player1 { get; set; }
@@ -25,7 +26,16 @@ namespace Backgammon.ConsoleUI
             while (Board.Locations[50].Number < 15 & Board.Locations[51].Number < 15)//End game condition here that can be looked at 
             {
                 BoardOutputter();
+
                 Game.Run();
+                Console.WriteLine("Would you like to save the game (y = yes, n = no)");
+                var input = Console.ReadLine();
+                if (input.ToUpper() == "Y")
+                {
+
+                    //WriteToBinaryFile();
+                }
+                Console.Clear();
             }
 
             BoardOutputter();
@@ -36,7 +46,7 @@ namespace Backgammon.ConsoleUI
         private static void UpdatePlayer()
         {
             Console.WriteLine(" ");
-            Console.WriteLine("Current player is " );
+            Console.WriteLine("Current player is ");
         }
 
 
@@ -44,7 +54,7 @@ namespace Backgammon.ConsoleUI
         {
             Console.WriteLine("Welcome to the best backgammon game on the internet");
             Console.WriteLine("The game will start soon");
-            Board = new Board(Dice);
+            Board = new Board(Dice);//where you load
         }
 
 
@@ -63,6 +73,31 @@ namespace Backgammon.ConsoleUI
             Console.WriteLine(" ");
             Console.WriteLine("G A M E  O V E R!");
 
+        }
+
+        public static void WriteToBinaryFile<T>()
+        {
+            var append = false;
+            Game currentGame = new Game(Player1, Player2, Currentplayer, Board);
+            Console.Write("What would you like your filename to be :");
+            var fileName = Console.ReadLine();
+            using (Stream stream = File.Open(fileName, append ? FileMode.Append : FileMode.Create))
+            {
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                binaryFormatter.Serialize(stream, currentGame);
+            }
+        }
+
+
+        public static T ReadFromBinaryFile<T>(string filePath)
+        {
+            Console.WriteLine("What is the name of the file you wish to open");
+            var fileName = Console.ReadLine();
+            using (Stream stream = File.Open(fileName, FileMode.Open))
+            {
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                return (T)binaryFormatter.Deserialize(stream);
+            }
         }
 
 
@@ -100,7 +135,7 @@ namespace Backgammon.ConsoleUI
                 }
                 else if (playerselect.ToUpper() == "B")
                 {
-                    
+
                     Console.WriteLine("You have selected bot vs bot");
                     Console.WriteLine("You can now customize the players");
                     Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B)");
@@ -195,7 +230,7 @@ namespace Backgammon.ConsoleUI
                             player2type = "Advanced Defensive Bot";
                             botselectionrepeater2 = true;
                         }
-                        else if(player2botselection.ToUpper() == "ADB")
+                        else if (player2botselection.ToUpper() == "ADB")
                         {
                             player2type = "Advanced Defensive Bot B";
                             botselectionrepeater2 = true;
@@ -214,13 +249,13 @@ namespace Backgammon.ConsoleUI
                     repeater = false;
                 }
             } while (repeater == false);
-            
+
             Console.WriteLine("Name player 1 :");
             player1name = Console.ReadLine();
             Console.WriteLine("Name player 2 :");
             player2name = Console.ReadLine();
             Console.WriteLine("Last step please pick a colour for player 1 player 2 will be the other colour");
-     
+
             do
             {
                 Console.WriteLine("Select colour (b = black, w = white) :");
@@ -256,7 +291,7 @@ namespace Backgammon.ConsoleUI
             }
             if (player1type == "Human")
             {
-                Player1 = new HumanPlayer(player1name, player1colour,Board);
+                Player1 = new HumanPlayer(player1name, player1colour, Board);
             }
             else if (player1type == "Basic Bot")
             {
@@ -298,77 +333,127 @@ namespace Backgammon.ConsoleUI
                 Player2 = new AutomatedPlayer3B(player2name, player2colour, Board);
             }
 
-                Currentplayer = Player1;
+            Currentplayer = Player1;
 
-                Game = new Game(Player1, Player2, Currentplayer, Board);
+            Game = new Game(Player1, Player2, Currentplayer, Board);
 
-                             
+
         }
 
 
 
+       
         private static void BoardOutputter()
         {
             StringBuilder topPiece = new StringBuilder();
-            StringBuilder bottomPiece = new StringBuilder();
-            topPiece.Append("-----------------");
+            topPiece.Append("--------------");
+            StringBuilder line = new StringBuilder();
+            int highestPieceCount = HighestvalueTophalf();           
+            int topHalfCount = 0;
             Console.WriteLine(topPiece.ToString());
-            int count = 23;
-            int dots = 7;
+            for (int i = 0; i < (highestPieceCount); i++)
+            {
+                line.Append("|");
+                for (int a = 23; a >11; a--)
+                {
+                    if (Board.Locations[a].Number - topHalfCount > 0)
+                    {
+                        var zeroOrOne = Board.Locations[a].Colour;                       
+                        if (zeroOrOne == Colours.White)
+                        {
+                           
+                                line.Append("0");
+                            
+                        }
+                        else if (zeroOrOne == Colours.Black)
+                        {
+                           
+                                line.Append("1");
+                            
+                        }
+                    }
+                    else
+                    {
+                        line.Append(".");
+                    }
+                }
+                line.Append("|");
+                Console.WriteLine(line.ToString());
+                line.Clear();
+                topHalfCount = topHalfCount + 1;
+            }
+            StringBuilder middlePiece = new StringBuilder();
+            middlePiece.Append("--------------" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number + " B:" + Board.Locations[50].Number + " W:" + Board.Locations[51].Number);
+            Console.WriteLine(middlePiece.ToString());
+            int bottomHalfCount = highestValueBottomHalf();
+            int bottomHighestValue = highestValueBottomHalf();           
+            for (int i = 0; i < bottomHighestValue; i++)
+            {
+                line.Append("|");
+                for (int a = 0; a < 12; a++)
+                {
+                    if (Board.Locations[a].Number - bottomHalfCount >= 0)
+                    {
+                        var zeroOrOne = Board.Locations[a].Colour;
+                        if (zeroOrOne == Colours.White)
+                        {
+
+                            line.Append("0");
+
+                        }
+                        else if (zeroOrOne == Colours.Black)
+                        {
+
+                            line.Append("1");
+
+                        }
+                    }
+                    else
+                    {
+                        line.Append(".");
+                    }
+                }
+                line.Append("|");
+                Console.WriteLine(line.ToString());
+                line.Clear();
+                bottomHalfCount = bottomHalfCount - 1;
+            }
+            StringBuilder bottomPiece = new StringBuilder();
+            bottomPiece.Append("--------------");
+            Console.WriteLine(bottomPiece);
+
+        }
+        private static int HighestvalueTophalf()
+        {
+            int highestValue = 0;
+            for (int i = 23; i > 11 ; i--)
+            {
+                int valueChecker = 0;
+                valueChecker = Board.Locations[i].Number;
+                if (valueChecker > highestValue)
+                {
+                    highestValue = valueChecker;
+                }
+            }
+            return highestValue;
+        }
+        private static int highestValueBottomHalf()
+        {
+            int highestValue = 0;
             for (int i = 0; i < 12; i++)
             {
-                if (i == 6)
+                int valueChecker = 0;
+                valueChecker = Board.Locations[i].Number;
+                if (valueChecker > highestValue)
                 {
-                    Console.WriteLine("|---------------|" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number + " B:" + Board.Locations[50].Number + " W:" + Board.Locations[51].Number);
+                    highestValue = valueChecker;
                 }
-                StringBuilder piece = new StringBuilder();
-                piece.Append("|");
-                var zeroOrOne = Board.Locations[i].Colour;
-                var zeroOrOneC = Board.Locations[count].Colour;
-                if (zeroOrOne == Colours.White)
-                {
-                    for (int a = 0; a < Board.Locations[i].Number; a++)
-                    {
-                        piece.Append("0");
-                    }
-                }
-                else if (zeroOrOne == Colours.Black)
-                {
-                    for (int a = 0; a < Board.Locations[i].Number; a++)
-                    {
-                        piece.Append("1");
-                    }
-                }
-                for (int c = 0; c < dots - Board.Locations[i].Number; c++)
-                {
-                    piece.Append(".");
-                }
-                piece.Append("|");
-                for (int c = 0; c < dots - Board.Locations[count].Number; c++)
-                {
-                    piece.Append(".");
-                }
-                if (zeroOrOneC == Colours.White)
-                {
-                    for (int a = 0; a < Board.Locations[count].Number; a++)
-                    {
-                        piece.Append("0");
-                    }
-                }
-                else if (zeroOrOneC == Colours.Black)
-                {
-                    for (int a = 0; a < Board.Locations[count].Number; a++)
-                    {
-                        piece.Append("1");
-                    }
-                }
-                piece.Append("|");
-                count = count - 1;
-                Console.WriteLine(piece.ToString());
             }
-            bottomPiece.Append("-----------------");
-            Console.WriteLine(bottomPiece.ToString());
+            return highestValue;
+
         }
 
+
     }
+
 }

@@ -25,32 +25,16 @@ namespace Backgammon.Model
         }
         protected virtual int ChoosePieceInNormalPlay(int roll, Player currentplayer, int movecount, Tuple<bool, int, int> doubleMove)
         {
-            var exposedPiecesLocations = Board.ExposedPieces(currentplayer.Colour);
-            var safeLocations = Board.ValidPieceLocationsColour(currentplayer.Colour);
+           
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
-            var stackGreaterThanFourMoves = Board.StackGreaterThanFour(currentplayer.Colour);
-            List<int> validExposedMoves = new List<int>();
-            List<int> validSafeMoves = new List<int>();
+            var stackGreaterThanFiveMoves = Board.StackGreaterThanFive(currentplayer.Colour);         
             List<int> validStackMoves = new List<int>();
 
 
 
             if (currentplayer.Colour == Colours.Black)
             {
-                foreach (var location in exposedPiecesLocations)
-                {
-                    var locator = location - roll;
-                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))
-                    {
-                        validExposedMoves.Add(location);
-                    }
-                }
-                if (validExposedMoves.Count > 0)
-                {
-                    int randomLocation = rnd.Next(validExposedMoves.Count);
-                    int selection = validExposedMoves[randomLocation];
-                    return selection;
-                }
+                
                 if (doubleMove.Item1 == true)
                 {
                     if (movecount == 1)
@@ -62,58 +46,39 @@ namespace Backgammon.Model
                         return doubleMove.Item3;
                     }
                 }
-                foreach (var location in stackGreaterThanFourMoves)//this one will only move the stack in the event of there being a safe move available
+                var validExposedMoves = ValidExposedMovesCreationBlack(roll, currentplayer);
+                if (validExposedMoves.Count > 0)
+                {
+                    return SelectionOfRandomVEM(roll, currentplayer, validExposedMoves);
+                }
+                foreach (var location in stackGreaterThanFiveMoves)//this one will only move the stack in the event of there being a safe move available
                 {
                     var locator = location - roll;
-                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator))
+                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator) & validMoves.Contains(locator))
                     {
                         validStackMoves.Add(location);
                     }
                 }
-                if (validStackMoves.Count > 0)
+                if (validStackMoves.Count > 0 )
                 {
                     int randomLocation = rnd.Next(validStackMoves.Count);
                     int selection = validStackMoves[randomLocation];
                     return selection;
                 }
 
-                foreach (var location in safeLocations)
-                {
-                    var locator = location - roll;
-                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator))
-                    {
-                        validSafeMoves.Add(location);
-                    }
-                }
+                var validSafeMoves = ValidSafeMovesCreationBlack(roll, currentplayer);
                 if (validSafeMoves.Count > 0)
                 {
-                    int randomLocation = rnd.Next(validSafeMoves.Count);
-                    int selection = validSafeMoves[randomLocation];
-                    return selection;
+                    return SelectionOfRandomVSM(roll, currentplayer, validSafeMoves);
                 }
                 else
-                {
-                    int randomLocation = rnd.Next(validMoves.Count);
-                    int selection = validMoves[randomLocation];
-                    return selection;
+                {                   
+                    return SelectionOfHighestVMBlack(roll, currentplayer);           
                 }
             }
             else
             {
-                foreach (var location in exposedPiecesLocations)
-                {
-                    var locator = location + roll;
-                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))
-                    {
-                        validExposedMoves.Add(location);
-                    }
-                }
-                if (validExposedMoves.Count > 0)
-                {
-                    int randomLocation = rnd.Next(validExposedMoves.Count);
-                    int selection = validExposedMoves[randomLocation];
-                    return selection;
-                }
+                
                 if (doubleMove.Item1 == true)
                 {
                     if (movecount == 1)
@@ -125,7 +90,12 @@ namespace Backgammon.Model
                         return doubleMove.Item3;
                     }
                 }
-                foreach (var location in stackGreaterThanFourMoves)//this one will only move the stack in the event of there being a safe move available
+                var validExposedMoves = ValidExposedMovesCreationWhite(roll, currentplayer);
+                if (validExposedMoves.Count > 0)
+                {
+                    return SelectionOfRandomVEM(roll, currentplayer, validExposedMoves);
+                }
+                foreach (var location in stackGreaterThanFiveMoves)//this one will only move the stack in the event of there being a safe move available
                 {
                     var locator = location + roll;
                     if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator))
@@ -140,25 +110,14 @@ namespace Backgammon.Model
                     return selection;
                 }
 
-                foreach (var location in safeLocations)
-                {
-                    var locator = location + roll;
-                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator))
-                    {
-                        validSafeMoves.Add(location);
-                    }
-                }
+                var validSafeMoves = ValidSafeMovesCreationWhite(roll, currentplayer);
                 if (validSafeMoves.Count > 0)
                 {
-                    int randomLocation = rnd.Next(validSafeMoves.Count);
-                    int selection = validSafeMoves[randomLocation];
-                    return selection;
+                    return SelectionOfRandomVSM(roll, currentplayer, validSafeMoves);
                 }
                 else
                 {
-                    int randomLocation = rnd.Next(validMoves.Count);
-                    int selection = validMoves[randomLocation];
-                    return selection;
+                    return SelectionOfLowestVMWhite(roll, currentplayer);
                 }
             }
 

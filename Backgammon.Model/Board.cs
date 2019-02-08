@@ -110,14 +110,14 @@ namespace Backgammon.Model
         public List<int> ValidMoves(Colours colour,int diceValue)
         {
             List<int> validMoves = new List<int>();
-            var colourLocations = Locations.Where(kvp => kvp.Value.Colour == colour).Select(kvp => kvp.Key).Take(24).ToList();
-            var colourLocationsEndGameW = Locations.Where(kvp => kvp.Value.Colour == Colours.White & kvp.Key <= 23 & kvp.Key >= 17).Select(kvp => kvp.Key).ToList();
-            var colourLocationsEndGameB = Locations.Where(kvp => kvp.Value.Colour == Colours.Black & kvp.Key <=5 & kvp.Key >=0).Select(kvp => kvp.Key).ToList();
+            var colourLocations = Locations.Where(kvp => kvp.Value.Colour == colour & kvp.Value.Number >=1).Select(kvp => kvp.Key).Take(24).ToList();
+            var colourLocationsEndGameW = Locations.Where(kvp => (kvp.Value.Colour == Colours.White & kvp.Value.Number >= 1) & (kvp.Key <= 23 & kvp.Key >= 17)).Select(kvp => kvp.Key).ToList();
+            var colourLocationsEndGameB = Locations.Where(kvp => (kvp.Value.Colour == Colours.Black & kvp.Value.Number >= 1) & (kvp.Key <=5 & kvp.Key >=0)).Select(kvp => kvp.Key).ToList();
             if (EndGameChecker(colour) == true)
             {
                 if (colour == Colours.Black)
                 {
-                    var minimumBlack = CalculateMinimumBlack(diceValue);
+                    var minimumBlack = CalculateMinimumBlack(diceValue,colour);
                     foreach (var location in colourLocationsEndGameB)
                     {
                         var locator = location - diceValue;
@@ -130,7 +130,7 @@ namespace Backgammon.Model
                 }
                 else
                 {
-                    var maximumWhite = CalculateMaximumWhite(diceValue);
+                    var maximumWhite = CalculateMaximumWhite(diceValue,colour);
                     foreach (var location in colourLocationsEndGameW)
                     {
                         var locator = location + diceValue;
@@ -194,7 +194,7 @@ namespace Backgammon.Model
         }
         public List<int> ValidPieceLocationsColour(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour)).Select(kvp => kvp.Key).ToList();
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour & kvp.Value.Number >= 1)).Select(kvp => kvp.Key).ToList();
         }
         public List<int> ValidLocationsPiecesCanGoWhenTakenWhite(Colours colour)
         {
@@ -204,13 +204,13 @@ namespace Backgammon.Model
         {
             return Locations.Where(kvp => kvp.Key >= 17 & kvp.Key <=23 &(kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
         }
-        public List<int> ExposedPieces(Colours colour)
+        public List<int> YourExposedPieces(Colours colour)
         {
             return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
         }
-        public List<int> StackGreaterThanFour(Colours colour)
+        public List<int> StackGreaterThanFive(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Number >= 4)).Select(kvp => kvp.Key).ToList();
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Number >= 5)).Select(kvp => kvp.Key).ToList();
         }
 
         public List<Tuple<bool,int, int>> DoubleMoves(int roll1, int roll2, Player currentplayer)
@@ -272,19 +272,29 @@ namespace Backgammon.Model
             //use index of key of dictionary to add onto pieces  
             //output board to the user 
             //cant output to the console in model so that is the problem with this get the move implemented tommorow.
-            var validMoves = ValidMoves(colour, diceValue);
-            var availableLocations = ValidLocationsPiecesCanGo(colour);
-            var availableLocationsTakenWhite = ValidLocationsPiecesCanGoWhenTakenWhite(colour);
-            var availableLocationsTakenBlack = ValidLocationsPiecesCanGoWhenTakenBlack(colour);
-            var minimumBlack = CalculateMinimumBlack(diceValue);
-            var maximumWhite = CalculateMaximumWhite(diceValue);
-
             if (GameFinished() == true)
             {
                 return;
             }
+            var validMoves = ValidMoves(colour, diceValue);
+            var availableLocations = ValidLocationsPiecesCanGo(colour);
+            var availableLocationsTakenWhite = ValidLocationsPiecesCanGoWhenTakenWhite(colour);
+            var availableLocationsTakenBlack = ValidLocationsPiecesCanGoWhenTakenBlack(colour);
+            var minimumBlack = 100;
+            var maximumWhite = 100;
+            if (colour == Colours.Black)
+            {
+                minimumBlack = CalculateMinimumBlack(diceValue, colour);
+            }
+            if (colour == Colours.White)
+            {
+                maximumWhite = CalculateMaximumWhite(diceValue, colour);
+            }
+           
 
-            if (piecelocation - diceValue <=-1  & (piecelocation - diceValue == minimumBlack|piecelocation - diceValue == -1) & Locations[piecelocation].Colour == Colours.Black & EndGameChecker(Colours.Black) == true)//Add when = 0 its valid
+            
+
+            if (colour == Colours.Black & piecelocation - diceValue <=-1  & (piecelocation - diceValue == minimumBlack|piecelocation - diceValue == -1) & Locations[piecelocation].Colour == Colours.Black & EndGameChecker(Colours.Black) == true)//Add when = 0 its valid
             {
                 var fromLocation = Locations[piecelocation];
                 fromLocation.RemoveOnePiece();
@@ -292,7 +302,7 @@ namespace Backgammon.Model
                 toLocation.AddOnePiece(Colours.Black);
                 return;
             }
-            else if (piecelocation +diceValue >=24 & (piecelocation + diceValue == maximumWhite | piecelocation + diceValue == 24) & Locations[piecelocation].Colour == Colours.White & EndGameChecker(Colours.White) == true)
+            else if (colour == Colours.White & piecelocation +diceValue >=24 & (piecelocation + diceValue == maximumWhite | piecelocation + diceValue == 24) & Locations[piecelocation].Colour == Colours.White & EndGameChecker(Colours.White) == true)
             {
                 var fromLocation = Locations[piecelocation];
                 fromLocation.RemoveOnePiece();
@@ -335,7 +345,7 @@ namespace Backgammon.Model
                 {
                     toLocation = Locations[23 - diceValue + 1];
                     toLocation.AddOnePiece(colour);
-                    return ;
+                    return;
                 }
             }
             if (validMoves.Count == 0)
@@ -404,42 +414,53 @@ namespace Backgammon.Model
 
 
         }
-        public int CalculateMinimumBlack(int dice)
-        {
+        public int CalculateMinimumBlack(int dice,Colours colour)
+        {        
             int minimum = 5;
-            int count = 0;
-            do
+            if (EndGameChecker(colour) == true)
             {
-                if (Locations[5 - count].Number == 0)
-                {
-                    minimum = minimum - 1;
-                    count = count + 1;
-                }
-                else
-                {
-                    return minimum - dice;
-                }
 
-            } while (!(Locations[5 - (count - 1)].Number >0));
+
+                int count = 0;
+                do
+                {
+                    if (Locations[5 - count].Number <= 0)
+                    {
+                        minimum = minimum - 1;
+                        count = count + 1;
+                    }
+                    else
+                    {
+                        return minimum - dice;
+                    }
+
+                } while (!(Locations[5 - (count - 1)].Number > 0));
+                
+            }
             return minimum - dice;
-        }
-        public int CalculateMaximumWhite(int dice)
-        {
-            int maximum = 18;
-            int count = 0;
-            do
-            {
-                if (Locations[18 + count].Number==0)
-                {
-                    maximum = maximum + 1;
-                    count = count + 1;
-                }
-                else
-                {
-                    return maximum + dice; 
-                }
 
-            } while (!(Locations[18 - (count - 1)].Number > 0));
+        }
+        public int CalculateMaximumWhite(int dice,Colours colour)
+        {
+     
+            int maximum = 18;
+            if (EndGameChecker(colour)== true)
+            {
+                int count = 0;
+                do
+                {
+                    if (Locations[18 + count].Number <= 0)
+                    {
+                        maximum = maximum + 1;
+                        count = count + 1;
+                    }
+                    else
+                    {
+                        return maximum + dice;
+                    }
+
+                } while (!(Locations[18 - (count - 1)].Number > 0));
+            }          
             return maximum + dice;
 
         }

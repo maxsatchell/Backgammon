@@ -33,7 +33,12 @@ namespace Backgammon.Model
               
         public void Run()
         {
-           
+
+
+            if (Board.GameFinished() == true)
+            {
+                return;
+            }
             Dice = new Dice();
             var roll1 = Dice.Throw();
             var roll2 = Dice.Throw();
@@ -48,6 +53,7 @@ namespace Backgammon.Model
                 int doubleMoveSelector = rnd.Next(doubleMoves.Count);
                 randomDoubleMove = doubleMoves[doubleMoveSelector];
             }
+           
             
 
 
@@ -76,7 +82,7 @@ namespace Backgammon.Model
                     {
                         return;
                     }
-                    Currentplayer.UpdatePlayer();
+                    Currentplayer.UpdatePlayer();                   
                 }
             }
             else

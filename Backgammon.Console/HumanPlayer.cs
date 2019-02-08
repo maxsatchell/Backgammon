@@ -43,7 +43,13 @@ namespace Backgammon.ConsoleUI
         
         public static void OutputDice(int roll1,int roll2)
         {
-            Console.Write("Press D to roll the Dice :");
+            Console.Write("Press D to roll the Dice, Or press S to save the game :");
+            var input = Console.ReadLine();
+            if (input.ToUpper() == "S") 
+            {
+                
+            }
+
             Console.ReadKey();
             Console.WriteLine();
             Console.WriteLine("You rolled a " + roll1 + " and a " + roll2);
@@ -93,67 +99,118 @@ namespace Backgammon.ConsoleUI
              
         }
 
+        
         public override void UpdatePlayer()
         {
             StringBuilder topPiece = new StringBuilder();
-            StringBuilder bottomPiece = new StringBuilder();
-            topPiece.Append("-----------------");
+            topPiece.Append("--------------");
+            StringBuilder line = new StringBuilder();
+            int highestPieceCount = HighestvalueTophalf();
+            int topHalfCount = 0;
             Console.WriteLine(topPiece.ToString());
-            int count = 23;
-            int dots = 7;
+            for (int i = 0; i < (highestPieceCount); i++)
+            {
+                line.Append("|");
+                for (int a = 23; a > 11; a--)
+                {
+                    if (Board.Locations[a].Number - topHalfCount > 0)
+                    {
+                        var zeroOrOne = Board.Locations[a].Colour;
+                        if (zeroOrOne == Colours.White)
+                        {
+
+                            line.Append("0");
+
+                        }
+                        else if (zeroOrOne == Colours.Black)
+                        {
+
+                            line.Append("1");
+
+                        }
+                    }
+                    else
+                    {
+                        line.Append(".");
+                    }
+                }
+                line.Append("|");
+                Console.WriteLine(line.ToString());
+                line.Clear();
+                topHalfCount = topHalfCount + 1;
+            }
+            StringBuilder middlePiece = new StringBuilder();
+            middlePiece.Append("--------------" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number + " B:" + Board.Locations[50].Number + " W:" + Board.Locations[51].Number);
+            Console.WriteLine(middlePiece.ToString());
+            int bottomHalfCount = highestValueBottomHalf();
+            int bottomHighestValue = highestValueBottomHalf();
+            for (int i = 0; i < bottomHighestValue; i++)
+            {
+                line.Append("|");
+                for (int a = 0; a < 12; a++)
+                {
+                    if (Board.Locations[a].Number - bottomHalfCount >= 0)
+                    {
+                        var zeroOrOne = Board.Locations[a].Colour;
+                        if (zeroOrOne == Colours.White)
+                        {
+
+                            line.Append("0");
+
+                        }
+                        else if (zeroOrOne == Colours.Black)
+                        {
+
+                            line.Append("1");
+
+                        }
+                    }
+                    else
+                    {
+                        line.Append(".");
+                    }
+                }
+                line.Append("|");
+                Console.WriteLine(line.ToString());
+                line.Clear();
+                bottomHalfCount = bottomHalfCount - 1;
+            }
+            StringBuilder bottomPiece = new StringBuilder();
+            bottomPiece.Append("--------------");
+            Console.WriteLine(bottomPiece);
+
+        }
+        
+           
+        
+        public int HighestvalueTophalf()
+        {
+            int highestValue = 0;
+            for (int i = 23; i > 11; i--)
+            {
+                int valueChecker = 0;
+                valueChecker = Board.Locations[i].Number;
+                if (valueChecker > highestValue)
+                {
+                    highestValue = valueChecker;
+                }
+            }
+            return highestValue;
+        }
+        public int highestValueBottomHalf()
+        {
+            int highestValue = 0;
             for (int i = 0; i < 12; i++)
             {
-                if (i == 6)
+                int valueChecker = 0;
+                valueChecker = Board.Locations[i].Number;
+                if (valueChecker > highestValue)
                 {
-                    Console.WriteLine("|---------------|" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number + " B:" + Board.Locations[50].Number + " W:" + Board.Locations[51].Number);
+                    highestValue = valueChecker;
                 }
-                StringBuilder piece = new StringBuilder();
-                piece.Append("|");
-                var zeroOrOne = Board.Locations[i].Colour;
-                var zeroOrOneC = Board.Locations[count].Colour;
-                if (zeroOrOne == Colours.White)
-                {
-                    for (int a = 0; a < Board.Locations[i].Number; a++)
-                    {
-                        piece.Append("0");
-                    }
-                }
-                else if (zeroOrOne == Colours.Black)
-                {
-                    for (int a = 0; a < Board.Locations[i].Number; a++)
-                    {
-                        piece.Append("1");
-                    }
-                }
-                for (int c = 0; c < dots - Board.Locations[i].Number; c++)
-                {
-                    piece.Append(".");
-                }
-                piece.Append("|");
-                for (int c = 0; c < dots - Board.Locations[count].Number; c++)
-                {
-                    piece.Append(".");
-                }
-                if (zeroOrOneC == Colours.White)
-                {
-                    for (int a = 0; a < Board.Locations[count].Number; a++)
-                    {
-                        piece.Append("0");
-                    }
-                }
-                else if (zeroOrOneC == Colours.Black)
-                {
-                    for (int a = 0; a < Board.Locations[count].Number; a++)
-                    {
-                        piece.Append("1");
-                    }
-                }
-                piece.Append("|");
-                count = count - 1;
-                Console.WriteLine(piece.ToString());
             }
-            bottomPiece.Append("-----------------");
-            Console.WriteLine(bottomPiece.ToString());
+            return highestValue;
+
         }
 
         public override void RollChange(int roll)

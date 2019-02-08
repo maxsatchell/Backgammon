@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backgammon.Model
 {
-    public class AutomatedPlayer2 : Player
+    public class AutomatedPlayer2 : AutomatedPlayer
     {
         private Random rnd = new Random();
         public AutomatedPlayer2(string name, Colours colour, Board board) : base(name, colour, board)
@@ -16,83 +16,40 @@ namespace Backgammon.Model
 
         public override int ChoosePiece(int roll, Player currentplayer,int moveCount, Tuple<bool,int, int> doubleMove)
         {
-            List<int> validExposedMoves = new List<int>();
-            List<int> validSafeMoves = new List<int>();
-            var exposedPiecesLocations = Board.ExposedPieces(currentplayer.Colour);
-            var safeLocations = Board.ValidPieceLocationsColour(currentplayer.Colour);//All locations where it is your colour
-            var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
+                      
             if (currentplayer.Colour == Colours.Black)
             {
-                foreach (var location in exposedPiecesLocations)
-                {
-                    var locator = location - roll;
-                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))
-                    {
-                        validExposedMoves.Add(location);
-                    }
-                }
-                foreach (var location in safeLocations)
-                {
-                    var locator = location - roll;
-                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator))
-                    {
-                        validSafeMoves.Add(location);
-                    }
-                }
+                var validExposedMoves = ValidExposedMovesCreationBlack(roll, currentplayer);
+                var validSafeMoves = ValidSafeMovesCreationBlack(roll, currentplayer);
                 if (validExposedMoves.Count >0)
                 {
-                    int randomLocation = rnd.Next(validExposedMoves.Count);
-                    int selection = validExposedMoves[randomLocation];
-                    return selection;
+                    return SelectionOfRandomVEM(roll, currentplayer, validExposedMoves);
                 }
                 else if (validSafeMoves.Count > 0)
                 {
-                    int randomLocation = rnd.Next(validSafeMoves.Count);
-                    int selection = validSafeMoves[randomLocation];
-                    return selection;
+                    return SelectionOfRandomVSM(roll, currentplayer, validSafeMoves);
                 }
                 else
                 {
-                    int randomLocation = rnd.Next(validMoves.Count);
-                    int selection = validMoves[randomLocation];
-                    return selection;
+                   return SelectionOfRandomVM(roll, currentplayer);
                 }
             }
             else 
             {
-                foreach (var location in exposedPiecesLocations)
-                {
-                    var locator = location + roll;
-                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))
-                    {
-                        validExposedMoves.Add(location);
-                    }
-                }
-                foreach (var location in safeLocations)
-                {
-                    var locator = location + roll;
-                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator))
-                    {
-                        validSafeMoves.Add(location);
-                    }
-                }
+
+                var validExposedMoves = ValidExposedMovesCreationWhite(roll, currentplayer);
+                var validSafeMoves = ValidSafeMovesCreationWhite(roll, currentplayer);
                 if (validExposedMoves.Count > 0)
                 {
-                    int randomLocation = rnd.Next(validExposedMoves.Count);
-                    int selection = validExposedMoves[randomLocation];
-                    return selection;
+                   return SelectionOfRandomVEM(roll, currentplayer, validExposedMoves);
                 }
                 else if (validSafeMoves.Count > 0)
                 {
-                    int randomLocation = rnd.Next(validSafeMoves.Count);
-                    int selection = validSafeMoves[randomLocation];
-                    return selection;
+                    return SelectionOfRandomVSM(roll, currentplayer, validSafeMoves);
                 }
                 else
                 {
-                    int randomLocation = rnd.Next(validMoves.Count);
-                    int selection = validMoves[randomLocation];
-                    return selection;
+                    return SelectionOfRandomVM(roll, currentplayer);
                 }
             }
             

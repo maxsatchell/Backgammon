@@ -22,7 +22,7 @@ namespace Backgammon.Model
             }
             else
             {
-                return base.ChoosePiece(roll, currentplayer, movecount, doubleMove);
+                return ChoosePieceInNormalPlay(roll, currentplayer, movecount, doubleMove);
             }
             
         }
@@ -50,18 +50,19 @@ namespace Backgammon.Model
         protected override int ChoosePieceInEndGame(int roll, Player currentplayer, int movecount, Tuple<bool, int, int> doubleMove)
         {
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
-            var safeLocations = Board.ValidPieceLocationsColour(currentplayer.Colour);
+            var colourLocations = Board.ValidPieceLocationsColour(currentplayer.Colour);
             List<int> validTakeOffMoves = new List<int>();
-            var minimumBlack = Board.CalculateMinimumBlack(roll);
-            var maximumWhite = Board.CalculateMaximumWhite(roll);
+           
+            
 
 
             if (currentplayer.Colour == Colours.Black)
             {
-                foreach (var location in safeLocations)
+                var minimumBlack = Board.CalculateMinimumBlack(roll, currentplayer.Colour);
+                foreach (var location in colourLocations)
                 {
                     var locator = location - roll;
-                    if (locator == minimumBlack | locator == -1)
+                    if ((locator == minimumBlack & minimumBlack < 0) | locator == -1)
                     {
                         validTakeOffMoves.Add(location);
                     }
@@ -69,10 +70,11 @@ namespace Backgammon.Model
             }
             else
             {
-                foreach (var location in safeLocations)
+                var maximumWhite = Board.CalculateMaximumWhite(roll, currentplayer.Colour);
+                foreach (var location in colourLocations)
                 {
                     var locator = location + roll;
-                    if (locator == minimumBlack | locator == 24)
+                    if ((locator == maximumWhite & maximumWhite > 23) | locator == 24)
                     {
                         validTakeOffMoves.Add(location);
                     }
@@ -86,9 +88,16 @@ namespace Backgammon.Model
             }
             else
             {
-                int randomLocation = rnd.Next(validMoves.Count);
-                int selection = validMoves[randomLocation];
-                return selection;
+                if (currentplayer.Colour == Colours.Black)
+                {
+                    return SelectionOfHighestVMBlack(roll, currentplayer);
+                }
+                else 
+                {
+                    return SelectionOfLowestVMWhite(roll, currentplayer);
+                }
+
+               
             }
                 
 

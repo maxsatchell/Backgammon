@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EF9FE1B9-E559-4CB5-A899-841ECC93E2AD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Backgammon.Model</RootNamespace>
-    <AssemblyName>Backgammon.Model</AssemblyName>
+    <ProjectGuid>{AA1F820D-7562-4CBE-A46E-660A7EB85CF1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Backgammon.Testsimualtions</RootNamespace>
+    <AssemblyName>Backgammon.Testsimualtions</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,9 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,24 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutomatedPlayer1.cs" />
-    <Compile Include="AutomatedPlayer2.cs" />
-    <Compile Include="AutomatedPlayer3A.cs" />
-    <Compile Include="AutomatedPlayer3B.cs" />
-    <Compile Include="AutomatedPlayer.cs" />
-    <Compile Include="Board.cs" />
-    <Compile Include="Colours.cs" />
-    <Compile Include="Dice.cs" />
-    <Compile Include="DiceRollResult.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="Location.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="SimulationsProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RunningGamePlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Backgammon.Model\Backgammon.Model.csproj">
+      <Project>{ef9fe1b9-e559-4cb5-a899-841ecc93e2ad}</Project>
+      <Name>Backgammon.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,7 +30,7 @@ namespace Fixtures
             Locations[15] = new Location(0, Colours.Empty);
             Locations[16] = new Location(0, Colours.Empty);
             Locations[17] = new Location(0, Colours.Empty);
-            Locations[18] = new Location(0, Colours.White);
+            Locations[18] = new Location(0, Colours.Empty);
             Locations[19] = new Location(5, Colours.White);
             Locations[20] = new Location(5, Colours.White);
             Locations[21] = new Location(5, Colours.White);
@@ -96,7 +96,7 @@ namespace Fixtures
             Locations[15] = new Location(0, Colours.Empty);
             Locations[16] = new Location(0, Colours.Empty);
             Locations[17] = new Location(0, Colours.Empty);
-            Locations[18] = new Location(0, Colours.White);
+            Locations[18] = new Location(0, Colours.Empty);
             Locations[19] = new Location(5, Colours.White);
             Locations[20] = new Location(5, Colours.White);
             Locations[21] = new Location(5, Colours.White);

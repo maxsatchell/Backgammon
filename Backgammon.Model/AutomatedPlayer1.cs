@@ -16,10 +16,7 @@ namespace Backgammon.Model
 
         public override int ChoosePiece(int roll,Player currentplayer,int moveCount, Tuple<bool,int, int> doubleMove)
         {
-                var validMoves = Board.ValidMoves(currentplayer.Colour, roll);       
-                int randomLocation = rnd.Next(validMoves.Count);
-                int selection = validMoves[randomLocation];
-                return selection;
+           return SelectionOfRandomVM(roll, currentplayer);
 
         }
 
