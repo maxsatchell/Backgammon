@@ -138,7 +138,7 @@ namespace Backgammon.ConsoleUI
 
                     Console.WriteLine("You have selected bot vs bot");
                     Console.WriteLine("You can now customize the players");
-                    Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B)");
+                    Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B, rgs = Running game strategy)");
                     do
                     {
                         Console.WriteLine("Select Player 1s bot type :");
@@ -161,6 +161,11 @@ namespace Backgammon.ConsoleUI
                         else if (player1botselection.ToUpper() == "ADB")
                         {
                             player1type = "Advanced Defensive Bot B";
+                            botselectionrepeater1 = true;
+                        }
+                        else if (player1botselection.ToUpper() == "RGS")
+                        {
+                            player1type = "Running Game Strategy";
                             botselectionrepeater1 = true;
                         }
                         else
@@ -195,6 +200,11 @@ namespace Backgammon.ConsoleUI
                             player2type = "Advanced Defensive Bot B";
                             botselectionrepeater2 = true;
                         }
+                        else if (player2botselection.ToUpper() == "RGS")
+                        {
+                            player2type = "Running Game Strategy";
+                            botselectionrepeater2 = true;
+                        }
                         else
                         {
                             Console.WriteLine("Incorrect input restarting bot selection process");
@@ -210,7 +220,7 @@ namespace Backgammon.ConsoleUI
                     Console.WriteLine("You can now customize the players");
                     player1type = "Human";
                     Console.WriteLine("Player 1 is human");
-                    Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B)");
+                    Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B,rgs = Running game strategy)");
                     do
                     {
                         Console.WriteLine("Select Players bot type :");
@@ -233,6 +243,11 @@ namespace Backgammon.ConsoleUI
                         else if (player2botselection.ToUpper() == "ADB")
                         {
                             player2type = "Advanced Defensive Bot B";
+                            botselectionrepeater2 = true;
+                        }
+                        else if (player2botselection.ToUpper() == "RGS")
+                        {
+                            player2type = "Running Game Strategy";
                             botselectionrepeater2 = true;
                         }
                         else
@@ -305,11 +320,14 @@ namespace Backgammon.ConsoleUI
             {
                 Player1 = new AutomatedPlayer3A(player1name, player1colour, Board);
             }
-            else
+            else if (player1type == "Advanced Defensive Bot B")// ADDD IN IF STATEMENTS FOR IF 
             {
                 Player1 = new AutomatedPlayer3B(player1name, player1colour, Board);
             }
-
+            else
+            {
+                Player1 = new RunningGamePlayer(player1name, player1colour, Board);
+            }
 
 
             if (player2type == "Human")
@@ -328,9 +346,14 @@ namespace Backgammon.ConsoleUI
             {
                 Player2 = new AutomatedPlayer3A(player2name, player2colour, Board);
             }
-            else
+            else if(player2type == "Advanced Defensive Bot B")
             {
                 Player2 = new AutomatedPlayer3B(player2name, player2colour, Board);
+            }
+            else
+            {
+                Player2 = new RunningGamePlayer(player2name, player2colour, Board);
+                    
             }
 
             Currentplayer = Player1;

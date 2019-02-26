@@ -50,6 +50,7 @@
     <Compile Include="AutomatedPlayer3A.cs" />
     <Compile Include="AutomatedPlayer3B.cs" />
     <Compile Include="AutomatedPlayer.cs" />
+    <Compile Include="BlitzPlayer.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Colours.cs" />
     <Compile Include="Dice.cs" />
@@ -62,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

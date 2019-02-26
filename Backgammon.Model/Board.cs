@@ -204,7 +204,7 @@ namespace Backgammon.Model
         {
             return Locations.Where(kvp => kvp.Key >= 17 & kvp.Key <=23 &(kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
         }
-        public List<int> YourExposedPieces(Colours colour)
+        public List<int> ExposedPieces(Colours colour)
         {
             return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
         }

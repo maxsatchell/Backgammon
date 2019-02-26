@@ -81,9 +81,13 @@ namespace Backgammon.Testsimualtions
             {
                 Player1 = new AutomatedPlayer3A("AutomatedPlayer3A", Colours.White, Board);
             }
-            else
+            else if (Player1.Name == "AutomatedPlayer3B")
             {
                 Player1 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.White, Board);
+            }
+            else
+            {
+                Player1 = new RunningGamePlayer("RunningGamePlayer", Colours.White, Board);
             }
 
 
@@ -100,10 +104,15 @@ namespace Backgammon.Testsimualtions
             else if (Player2.Name == "AutomatedPlayer3A")
             {
                 Player2 = new AutomatedPlayer3A("AutomatedPlayer3A", Colours.Black, Board);
+            }          
+            else if (Player2.Name == "AutomatedPlayer3B")
+            {
+                Player2 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.Black, Board);
             }
             else
             {
-                Player2 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.Black, Board);
+                Player2 = new RunningGamePlayer("RunningGamePlayer", Colours.Black, Board);
+                
             }
 
             Currentplayer = Player1;
@@ -145,6 +154,11 @@ namespace Backgammon.Testsimualtions
                     player1type = "Advanced Defensive Bot B";
                     botselectionrepeater1 = true;
                 }
+                else if (player1botselection.ToUpper() == "RGS")
+                {
+                    player1type = "Running Game Strategy";
+                    botselectionrepeater1 = true;
+                }
                 else
                 {
                     Console.WriteLine("Incorrect input restarting bot selection process");
@@ -177,6 +191,11 @@ namespace Backgammon.Testsimualtions
                     player2type = "Advanced Defensive Bot B";
                     botselectionrepeater2 = true;
                 }
+                else if (player2botselection.ToUpper() == "RGS")
+                {
+                    player2type = "Running Game Strategy";
+                    botselectionrepeater2 = true;
+                }
                 else
                 {
                     Console.WriteLine("Incorrect input restarting bot selection process");
@@ -197,9 +216,13 @@ namespace Backgammon.Testsimualtions
             {
                 Player1 = new AutomatedPlayer3A("AutomatedPlayer3A", Colours.White, Board);
             }
-            else
+            else if (player1type == "Advanced Defensive Bot B")
             {
                 Player1 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.White, Board);
+            }
+            else
+            {
+                Player1 = new RunningGamePlayer("RunningGamePlayer", Colours.Black, Board);
             }
 
 
@@ -217,9 +240,13 @@ namespace Backgammon.Testsimualtions
             {
                 Player2 = new AutomatedPlayer3A("AutomatedPlayer3A", Colours.Black, Board);
             }
-            else
+            else if(player2type == "Advanced Defensive Bot B")
             {
                 Player2 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.Black, Board);
+            }
+            else
+            {
+                Player2 = new RunningGamePlayer("RunningGamePlayer", Colours.Black, Board);
             }
 
             Currentplayer = Player1;

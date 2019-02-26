@@ -86,7 +86,7 @@ namespace Backgammon.Model
         {
             List<int> validExposedMoves = new List<int>();
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
-            var exposedPiecesLocations = Board.YourExposedPieces(currentplayer.Colour);
+            var exposedPiecesLocations = Board.ExposedPieces(currentplayer.Colour);
             foreach (var location in exposedPiecesLocations)
             {
                 var locator = location - roll;
@@ -118,7 +118,7 @@ namespace Backgammon.Model
         {
             List<int> validExposedMoves = new List<int>();
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
-            var exposedPiecesLocations = Board.YourExposedPieces(currentplayer.Colour);
+            var exposedPiecesLocations = Board.ExposedPieces(currentplayer.Colour);
             foreach (var location in exposedPiecesLocations)
             {
                 var locator = location + roll;
@@ -130,10 +130,35 @@ namespace Backgammon.Model
             return validExposedMoves;
         }
 
-        protected int PipCount()
+        protected int PipCount(Colours colour)
         {
-            //starting pip
-            return 0;
+            int counter = 0;
+            int PipCount = 0;
+            if (colour == Colours.Black)
+            {
+                for (int i = 0; i < 24; i++)
+                {
+                    if (Board.Locations[i].Colour == colour)
+                    {
+                        counter = Board.Locations[i].Number * (i + 1);
+                        PipCount = PipCount + counter;
+                    }
+                }
+            }          
+            else if(colour == Colours.White)
+            {
+                for (int i = 0; i < 24; i++)
+                {
+                    if (Board.Locations[i].Colour == colour)
+                    {
+                        counter = (24 - i) * Board.Locations[i].Number;
+                        PipCount = PipCount + counter;
+                    }
+                }
+               
+            }
+            
+            return PipCount;
         }
 
     }
