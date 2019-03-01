@@ -14,23 +14,23 @@ namespace Backgammon.Model
         }
 
 
-        protected int SelectionOfHighestVMBlack(int roll,Player currentplayer)
+        protected int SelectionOfHighestVMBlack(int roll, Player currentplayer)
         {
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
             var highestValue = -1;
-                for (int i = 0; i < validMoves.Count; i++)
+            for (int i = 0; i < validMoves.Count; i++)
+            {
+                if (validMoves[i] > highestValue)
                 {
-                    if (validMoves[i] > highestValue)
-                    {
-                        highestValue = validMoves[i];
-                    }
+                    highestValue = validMoves[i];
                 }
+            }
 
-                int selection = highestValue;             
-            
+            int selection = highestValue;
+
             return selection;
         }
-        protected int SelectionOfLowestVMWhite(int roll,Player currentplayer)
+        protected int SelectionOfLowestVMWhite(int roll, Player currentplayer)
         {
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
             var lowestValue = 100;
@@ -45,7 +45,7 @@ namespace Backgammon.Model
             return selection;
         }
 
-        protected int SelectionOfRandomVM(int roll,Player currentplayer)
+        protected int SelectionOfRandomVM(int roll, Player currentplayer)
         {
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);
             int randomLocation = rnd.Next(validMoves.Count);
@@ -58,7 +58,7 @@ namespace Backgammon.Model
             int selection = validExposedMoves[randomLocation];
             return selection;
         }
-        protected int SelectionOfRandomVSM(int roll, Player currentplayer,List<int> validSafeMoves)
+        protected int SelectionOfRandomVSM(int roll, Player currentplayer, List<int> validSafeMoves)
         {
             int randomLocation = rnd.Next(validSafeMoves.Count);
             int selection = validSafeMoves[randomLocation];
@@ -74,7 +74,7 @@ namespace Backgammon.Model
             foreach (var location in safeLocations)
             {
                 var locator = location - roll;
-                if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator)& validMoves.Contains(locator) )
+                if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator) & validMoves.Contains(locator))
                 {
                     validSafeMoves.Add(location);
                 }
@@ -90,7 +90,7 @@ namespace Backgammon.Model
             foreach (var location in exposedPiecesLocations)
             {
                 var locator = location - roll;
-                if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator)& validMoves.Contains(locator))
+                if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator) & validMoves.Contains(locator))
                 {
                     validExposedMoves.Add(location);
                 }
@@ -106,7 +106,7 @@ namespace Backgammon.Model
             foreach (var location in colourLocations)
             {
                 var locator = location + roll;
-                if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator)& validMoves.Contains(locator))
+                if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator) & validMoves.Contains(locator))
                 {
                     validSafeMoves.Add(location);
                 }
@@ -122,7 +122,7 @@ namespace Backgammon.Model
             foreach (var location in exposedPiecesLocations)
             {
                 var locator = location + roll;
-                if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator)& validMoves.Contains(locator))
+                if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator) & validMoves.Contains(locator))
                 {
                     validExposedMoves.Add(location);
                 }
@@ -144,8 +144,8 @@ namespace Backgammon.Model
                         PipCount = PipCount + counter;
                     }
                 }
-            }          
-            else if(colour == Colours.White)
+            }
+            else if (colour == Colours.White)
             {
                 for (int i = 0; i < 24; i++)
                 {
@@ -155,11 +155,25 @@ namespace Backgammon.Model
                         PipCount = PipCount + counter;
                     }
                 }
-               
+
             }
-            
+
             return PipCount;
         }
 
+      protected Colours ColourFlipper(Player CurrentPlayer)
+        {
+            if (CurrentPlayer.Colour == Colours.Black)
+            {
+                return Colours.White;
+            }
+            else
+            {
+                return Colours.Black;
+            }
+
+          
+
+        }
     }
 }
