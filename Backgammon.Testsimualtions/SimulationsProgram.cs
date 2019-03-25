@@ -127,6 +127,7 @@ namespace Backgammon.Testsimualtions
             var botselectionrepeater1 = false;
             var botselectionrepeater2 = false;
 
+
             Console.WriteLine("Please select the bots that you will want to test aganist each other");
             Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B)");
           
@@ -157,6 +158,12 @@ namespace Backgammon.Testsimualtions
                 else if (player1botselection.ToUpper() == "RGS")
                 {
                     player1type = "Running Game Strategy";
+                    botselectionrepeater1 = true;
+                }
+                
+                else if (player1botselection.ToUpper() == "BP")
+                {
+                    player1type = "Blitz Player";
                     botselectionrepeater1 = true;
                 }
                 else
@@ -196,6 +203,11 @@ namespace Backgammon.Testsimualtions
                     player2type = "Running Game Strategy";
                     botselectionrepeater2 = true;
                 }
+                else if (player2botselection.ToUpper() == "BP")
+                {
+                    player2type = "Blitz Player";
+                    botselectionrepeater2 = true;
+                }
                 else
                 {
                     Console.WriteLine("Incorrect input restarting bot selection process");
@@ -220,14 +232,18 @@ namespace Backgammon.Testsimualtions
             {
                 Player1 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.White, Board);
             }
+            else if (player1type == "Running Game Strategy")
+            {
+                Player1 = new RunningGamePlayer("Running Game Strategy", Colours.White, Board);
+            }
             else
             {
-                Player1 = new RunningGamePlayer("RunningGamePlayer", Colours.Black, Board);
+                Player1 = new BlitzPlayer("Blitz Player", Colours.White, Board);
             }
 
 
 
-           
+
             if (player2type == "Basic Bot")
             {
                 Player2 = new AutomatedPlayer1("AutomatedPlayer1", Colours.Black, Board);
@@ -244,9 +260,13 @@ namespace Backgammon.Testsimualtions
             {
                 Player2 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.Black, Board);
             }
+            else if (player2type == "Running Game Strategy")
+            {
+                Player2 = new RunningGamePlayer("Running Game Strategy", Colours.Black, Board);
+            }
             else
             {
-                Player2 = new RunningGamePlayer("RunningGamePlayer", Colours.Black, Board);
+                Player2 = new BlitzPlayer("Blitz Player", Colours.Black, Board);
             }
 
             Currentplayer = Player1;

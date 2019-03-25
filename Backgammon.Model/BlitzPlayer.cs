@@ -19,11 +19,79 @@ namespace Backgammon.Model
             //use the pre made exposed method to calclate the expoosed pieces and create the colourflipper method to get the oppenents colour
 
             //Take oppenents exposed pieces whenever possible
-         
-            if (Board.ExposedPieces(ColourFlipper(currentplayer)).Count > 0)
+            if (Board.EndGameChecker(currentplayer.Colour) == true)
             {
-
+                if (currentplayer.Colour == Colours.Black)
+                {
+                    return SelectionOfHighestVMBlack(roll,currentplayer);
+                }
+                else
+                {
+                    return SelectionOfLowestVMWhite(roll, currentplayer);
+                }
             }
+            else
+            {
+                if (currentplayer.Colour == Colours.Black)
+                {
+                    var TakingOponentsPieces = TakingMovesCreationBlack(roll, currentplayer);
+                    if (TakingOponentsPieces.Count > 0)
+                    {
+                        return SelectionOfRandomTakingMove(roll, currentplayer, TakingOponentsPieces);
+                    }
+                    if (doubleMove.Item1 == true)
+                    {
+                        if (movecCount == 1)
+                        {
+                            return doubleMove.Item2;
+                        }
+                        else
+                        {
+                            return doubleMove.Item3;
+                        }
+                    }
+                    else if (BuildingUpTheBackBoard(roll,currentplayer,movecCount,doubleMove) > -1)
+                    {
+                        return BuildingUpTheBackBoard(roll, currentplayer, movecCount, doubleMove);
+                    }
+                    else
+                    {
+                        return SelectionOfHighestVMBlack(roll, currentplayer);
+                    }
+
+                }
+                else
+                {
+                    var TakingOponentsPieces = TakingMovesCreationWhite(roll, currentplayer);
+                    if (TakingOponentsPieces.Count > 0)
+                    {
+                        return SelectionOfRandomTakingMove(roll, currentplayer, TakingOponentsPieces);
+                    }
+                    if (doubleMove.Item1 == true)
+                    {
+                        if (movecCount == 1)
+                        {
+                            return doubleMove.Item2;
+                        }
+                        else
+                        {
+                            return doubleMove.Item3;
+                        }
+                    }
+                    else if (BuildingUpTheBackBoard(roll, currentplayer, movecCount, doubleMove) > -1)
+                    {
+                        return BuildingUpTheBackBoard(roll, currentplayer, movecCount, doubleMove);
+                    }
+                    else
+                    {
+                        return SelectionOfLowestVMWhite(roll, currentplayer);
+                    }
+                    
+
+                }
+            }
+
+
 
             //To begin to build the backboard but with many condidtions on when to move etc
 
@@ -34,8 +102,10 @@ namespace Backgammon.Model
             //Take safe moves off look at what is left behind, but that should only be the case if you still have a piece taken from an enemy player as otherwise
             //you should just play to take off as much as possible
 
-            throw new NotImplementedException();
+          
         }
+
+        
 
         public override void NoValidMoves()
         {

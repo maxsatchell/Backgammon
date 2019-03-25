@@ -54,7 +54,7 @@ namespace Backgammon.Model
                 foreach (var location in stackGreaterThanFiveMoves)//this one will only move the stack in the event of there being a safe move available
                 {
                     var locator = location - roll;
-                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator) & validMoves.Contains(locator))
+                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator) & validMoves.Contains(location))
                     {
                         validStackMoves.Add(location);
                     }
@@ -98,7 +98,7 @@ namespace Backgammon.Model
                 foreach (var location in stackGreaterThanFiveMoves)//this one will only move the stack in the event of there being a safe move available
                 {
                     var locator = location + roll;
-                    if (Board.ValidPieceLocationsColour(currentplayer.Colour).Contains(locator))
+                    if (Board.ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(locator) & validMoves.Contains(location))
                     {
                         validStackMoves.Add(location);
                     }

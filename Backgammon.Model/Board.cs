@@ -10,7 +10,7 @@ namespace Backgammon.Model
     {
         public Dice Dice { get; set; }
         public Dictionary<int, Location> Locations { get; set; }
-        public Board(Dice dice, Dictionary<int,Location> nonStandardBoard)
+        public Board(Dice dice, Dictionary<int, Location> nonStandardBoard)
         {
             Dice = dice;
             Locations = nonStandardBoard;
@@ -86,7 +86,7 @@ namespace Backgammon.Model
                         adder = adder + Locations[i].Number;
                     }
                 }
-                if (adder == 15-Locations[51].Number)
+                if (adder == 15 - Locations[51].Number)
                 {
                     return true;
                 }
@@ -107,21 +107,21 @@ namespace Backgammon.Model
             }
         }
         //make a valid moves that can see if there is any validmoves on the board with dev on thurs
-        public List<int> ValidMoves(Colours colour,int diceValue)
+        public List<int> ValidMoves(Colours colour, int diceValue)
         {
             List<int> validMoves = new List<int>();
-            var colourLocations = Locations.Where(kvp => kvp.Value.Colour == colour & kvp.Value.Number >=1).Select(kvp => kvp.Key).Take(24).ToList();
+            var colourLocations = Locations.Where(kvp => kvp.Value.Colour == colour & kvp.Value.Number >= 1).Select(kvp => kvp.Key).Take(24).ToList();
             var colourLocationsEndGameW = Locations.Where(kvp => (kvp.Value.Colour == Colours.White & kvp.Value.Number >= 1) & (kvp.Key <= 23 & kvp.Key >= 17)).Select(kvp => kvp.Key).ToList();
-            var colourLocationsEndGameB = Locations.Where(kvp => (kvp.Value.Colour == Colours.Black & kvp.Value.Number >= 1) & (kvp.Key <=5 & kvp.Key >=0)).Select(kvp => kvp.Key).ToList();
+            var colourLocationsEndGameB = Locations.Where(kvp => (kvp.Value.Colour == Colours.Black & kvp.Value.Number >= 1) & (kvp.Key <= 5 & kvp.Key >= 0)).Select(kvp => kvp.Key).ToList();
             if (EndGameChecker(colour) == true)
             {
                 if (colour == Colours.Black)
                 {
-                    var minimumBlack = CalculateMinimumBlack(diceValue,colour);
+                    var minimumBlack = CalculateMinimumBlack(diceValue, colour);
                     foreach (var location in colourLocationsEndGameB)
                     {
                         var locator = location - diceValue;
-                        if (locator == minimumBlack | locator == -1 |locator >=0)
+                        if (locator == minimumBlack | locator == -1 | locator >= 0)
                         {
                             validMoves.Add(location);
                         }
@@ -130,7 +130,7 @@ namespace Backgammon.Model
                 }
                 else
                 {
-                    var maximumWhite = CalculateMaximumWhite(diceValue,colour);
+                    var maximumWhite = CalculateMaximumWhite(diceValue, colour);
                     foreach (var location in colourLocationsEndGameW)
                     {
                         var locator = location + diceValue;
@@ -142,50 +142,59 @@ namespace Backgammon.Model
                     return validMoves;
                 }
             }
-            if (colour == Colours.Black & Locations[40].Number >= 1)
-            {                
-              var locator = 23 - diceValue + 1;
-                if (ValidLocationsPiecesCanGoWhenTakenBlack(colour).Contains(locator))
-                {
-                    validMoves.Add(locator);
-                }
-                return validMoves;
-                
-            }
-            else if (colour == Colours.White & Locations[41].Number >= 1)
+            if (Locations[40].Number >= 1 || Locations[41].Number >= 1)
             {
-                var locator = diceValue - 1;
-                if (ValidLocationsPiecesCanGoWhenTakenWhite(colour).Contains(locator))
+                if (colour == Colours.Black & Locations[40].Number >= 1)
                 {
-                    validMoves.Add(locator);
-                }
-                return validMoves;
-            }
-            if (colour == Colours.Black)
-            {
-                foreach (var location in colourLocations)
-                {
-                    var locator = location - diceValue;
-                    if (ValidLocationsPiecesCanGo(colour).Contains(locator))
+                    var locator = 23 - diceValue + 1;
+                    if (ValidLocationsPiecesCanGoWhenTakenBlack(colour).Contains(locator))
                     {
-                        validMoves.Add(location);
+                        validMoves.Add(locator);
                     }
+                    return validMoves;
+
                 }
-                return validMoves;
+                else if (colour == Colours.White & Locations[41].Number >= 1)
+                {
+                    var locator = diceValue - 1;
+                    if (ValidLocationsPiecesCanGoWhenTakenWhite(colour).Contains(locator))
+                    {
+                        validMoves.Add(locator);
+                    }
+                    return validMoves;
+                }
             }
             else
             {
-                foreach (var location in colourLocations)
+                if (colour == Colours.Black)
                 {
-                    var locator = location + diceValue;
-                    if (ValidLocationsPiecesCanGo(colour).Contains(locator))
+                    foreach (var location in colourLocations)
                     {
-                        validMoves.Add(location);
+                        var locator = location - diceValue;
+                        if (ValidLocationsPiecesCanGo(colour).Contains(locator))
+                        {
+                            validMoves.Add(location);
+                        }
                     }
+                    return validMoves;
                 }
-                return validMoves;
-            }          
-           
+                else
+                {
+                    foreach (var location in colourLocations)
+                    {
+                        var locator = location + diceValue;
+                        if (ValidLocationsPiecesCanGo(colour).Contains(locator))
+                        {
+                            validMoves.Add(location);
+                        }
+                    }
+                    return validMoves;
+                }
+                
+            }
+            return validMoves;
+
+
         }
 
         public List<int> ValidLocationsPiecesCanGo(Colours colour)
@@ -194,23 +203,43 @@ namespace Backgammon.Model
         }
         public List<int> ValidPieceLocationsColour(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour & kvp.Value.Number >= 1)).Select(kvp => kvp.Key).ToList();
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Colour == colour & kvp.Value.Number >= 1)).Select(kvp => kvp.Key).ToList();
+        }
+        public List<int> ValidSafePieceLocationsColour(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Colour == colour & kvp.Value.Number >= 2)).Select(kvp => kvp.Key).ToList();
         }
         public List<int> ValidLocationsPiecesCanGoWhenTakenWhite(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Key >=0 & kvp.Key <=5 &(kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 5 & (kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
         }
         public List<int> ValidLocationsPiecesCanGoWhenTakenBlack(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Key >= 17 & kvp.Key <=23 &(kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
+            return Locations.Where(kvp => kvp.Key >= 17 & kvp.Key <= 23 & (kvp.Value.Colour == colour || kvp.Value.Number <= 1)).Select(kvp => kvp.Key).ToList();
         }
         public List<int> ExposedPieces(Colours colour)
         {
-            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 &(kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
         }
         public List<int> StackGreaterThanFive(Colours colour)
         {
             return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 23 & (kvp.Value.Number >= 5)).Select(kvp => kvp.Key).ToList();
+        }
+        public List<int> UnocupiedLocationsEGB(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Key <= 5 & kvp.Key >= 0 & (kvp.Value.Number == 0)).Select(kvp => kvp.Key).ToList();
+        }
+        public List<int> UnocupiedLocationsEGW(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Key <= 23 & kvp.Key >= 18 & (kvp.Value.Number == 0)).Select(kvp => kvp.Key).ToList();
+        }
+        public List<int> ExposedPiecesEGB(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Key >= 0 & kvp.Key <= 5 & (kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
+        }
+        public List<int> ExposedPiecesEGW(Colours colour)
+        {
+            return Locations.Where(kvp => kvp.Key >= 18 & kvp.Key <= 23 & (kvp.Value.Colour == colour & kvp.Value.Number == 1)).Select(kvp => kvp.Key).ToList();
         }
 
         public List<Tuple<bool,int, int>> DoubleMoves(int roll1, int roll2, Player currentplayer)
@@ -242,7 +271,7 @@ namespace Backgammon.Model
                 {
                     if (ValidPieceLocationsColour(currentplayer.Colour).Contains(location + difference) & ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(location - smallerRoll))
                     {
-                        //tuple.add location and location + differnce
+                        
                         results.Add(Tuple.Create(true,location, location + difference));
                     }
                 }
@@ -253,7 +282,7 @@ namespace Backgammon.Model
                 {
                     if (ValidPieceLocationsColour(currentplayer.Colour).Contains(location - difference) & ValidLocationsPiecesCanGo(currentplayer.Colour).Contains(location + smallerRoll))
                     {
-                        //tuple.add location and location - differnce
+                        
                         results.Add(Tuple.Create(true, location, location - difference));
                     }
                 }
