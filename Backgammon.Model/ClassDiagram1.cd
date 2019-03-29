@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Backgammon.Model.AutomatedPlayer" Collapsed="true">
-    <Position X="5.25" Y="1.75" Width="1.5" />
+  <Class Name="Backgammon.Model.AutomatedPlayer">
+    <Position X="2.75" Y="1.5" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>EgQEIAEAADAAIAAAQAAAAEAAIAAoQEAAFAAEAAAACEA=</HashCode>
+      <HashCode>EgQEIAEAADAAIAAAEAAAAEAAIAAgAAAABAAEAAAACEA=</HashCode>
       <FileName>AutomatedPlayer.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -15,13 +15,13 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.AutomatedPlayer2" Collapsed="true">
-    <Position X="5.25" Y="3.25" Width="1.5" />
+    <Position X="7.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAEAAAAAAAAAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
       <FileName>AutomatedPlayer2.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Backgammon.Model.AutomatedPlayer3A" Collapsed="true">
+  <Class Name="Backgammon.Model.AutomatedPlayer3A">
     <Position X="8.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAEAAAAAABIAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
@@ -36,7 +36,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.BlitzPlayer" Collapsed="true">
-    <Position X="3" Y="3.25" Width="1.5" />
+    <Position X="0.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
       <FileName>BlitzPlayer.cs</FileName>

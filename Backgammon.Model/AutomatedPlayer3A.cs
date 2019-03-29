@@ -49,7 +49,7 @@ namespace Backgammon.Model
                 var validExposedMoves = ValidExposedMovesCreationBlack(roll, currentplayer);
                 if (validExposedMoves.Count > 0)
                 {
-                    return SelectionOfRandomVEM(roll, currentplayer, validExposedMoves);
+                    return SelectionOfRandomItemInList(roll, currentplayer, validExposedMoves);
                 }
                 foreach (var location in stackGreaterThanFiveMoves)//this one will only move the stack in the event of there being a safe move available
                 {
@@ -69,7 +69,7 @@ namespace Backgammon.Model
                 var validSafeMoves = ValidSafeMovesCreationBlack(roll, currentplayer);
                 if (validSafeMoves.Count > 0)
                 {
-                    return SelectionOfRandomVSM(roll, currentplayer, validSafeMoves);
+                    return SelectionOfRandomItemInList(roll, currentplayer, validSafeMoves);
                 }
                 else
                 {                   
@@ -93,7 +93,7 @@ namespace Backgammon.Model
                 var validExposedMoves = ValidExposedMovesCreationWhite(roll, currentplayer);
                 if (validExposedMoves.Count > 0)
                 {
-                    return SelectionOfRandomVEM(roll, currentplayer, validExposedMoves);
+                    return SelectionOfRandomItemInList(roll, currentplayer, validExposedMoves);
                 }
                 foreach (var location in stackGreaterThanFiveMoves)//this one will only move the stack in the event of there being a safe move available
                 {
@@ -113,7 +113,7 @@ namespace Backgammon.Model
                 var validSafeMoves = ValidSafeMovesCreationWhite(roll, currentplayer);
                 if (validSafeMoves.Count > 0)
                 {
-                    return SelectionOfRandomVSM(roll, currentplayer, validSafeMoves);
+                    return SelectionOfRandomItemInList(roll, currentplayer, validSafeMoves);
                 }
                 else
                 {

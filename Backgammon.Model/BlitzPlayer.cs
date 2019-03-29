@@ -37,7 +37,7 @@ namespace Backgammon.Model
                     var TakingOponentsPieces = TakingMovesCreationBlack(roll, currentplayer);
                     if (TakingOponentsPieces.Count > 0)
                     {
-                        return SelectionOfRandomTakingMove(roll, currentplayer, TakingOponentsPieces);
+                        return SelectionOfRandomItemInList(roll, currentplayer, TakingOponentsPieces);
                     }
                     if (doubleMove.Item1 == true)
                     {
@@ -65,7 +65,7 @@ namespace Backgammon.Model
                     var TakingOponentsPieces = TakingMovesCreationWhite(roll, currentplayer);
                     if (TakingOponentsPieces.Count > 0)
                     {
-                        return SelectionOfRandomTakingMove(roll, currentplayer, TakingOponentsPieces);
+                        return SelectionOfRandomItemInList(roll, currentplayer, TakingOponentsPieces);
                     }
                     if (doubleMove.Item1 == true)
                     {

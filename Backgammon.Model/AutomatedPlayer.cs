@@ -52,49 +52,14 @@ namespace Backgammon.Model
             int selection = validMoves[randomLocation];
             return selection;
         }
-        protected int SelectionOfRandomVEM(int roll, Player currentplayer, List<int> validExposedMoves)
-        {
-            int randomLocation = rnd.Next(validExposedMoves.Count);
-            int selection = validExposedMoves[randomLocation];
-            return selection;
-        }
-        protected int SelectionOfRandomVSM(int roll, Player currentplayer, List<int> validSafeMoves)
-        {
-            int randomLocation = rnd.Next(validSafeMoves.Count);
-            int selection = validSafeMoves[randomLocation];
-            return selection;
-        }
-        protected int SelectionOfRandomTakingMove(int roll, Player currentplayer, List<int> validTakingMoves)
-        {
-            int randomLocation = rnd.Next(validTakingMoves.Count);
-            int selection = validTakingMoves[randomLocation];
-            return selection;
-        }
-        protected int SelectionOfVMTULEGB(int roll, Player currentplayer, List<int> validmovestounocupiedlocationsEGB)
-        {
-            int randomLocation = rnd.Next(validmovestounocupiedlocationsEGB.Count);
-            int selection = validmovestounocupiedlocationsEGB[randomLocation];
-            return selection;
-        }
-        protected int SelectionOfVMTULEGW(int roll, Player currentplayer, List<int> validmovestounocupiedlocationsEGW)
-        {
-            int randomLocation = rnd.Next(validmovestounocupiedlocationsEGW.Count);
-            int selection = validmovestounocupiedlocationsEGW[randomLocation];
-            return selection;
-        }
-        protected int SelectionOfRandomVSMEGB(int roll, Player currentplayer, List<int> validsafetymovesEGB)
-        {
-            int randomLocation = rnd.Next(validsafetymovesEGB.Count);
-            int selection = validsafetymovesEGB[randomLocation];
-            return selection;
-        }
-        protected int SelectionOfRandomVSMEGW(int roll, Player currentplayer, List<int> validsafetymovesEGW)
-        {
-            int randomLocation = rnd.Next(validsafetymovesEGW.Count);
-            int selection = validsafetymovesEGW[randomLocation];
-            return selection;
-        }
 
+        
+        protected int SelectionOfRandomItemInList(int roll, Player currentplayer,List<int> list)
+        {
+            int randomLocation = rnd.Next(list.Count);
+            int selection = list[randomLocation];
+            return selection;
+        }
         protected List<int> ValidSafeMovesCreationBlack(int roll, Player currentplayer)
 
         {
@@ -336,11 +301,11 @@ namespace Backgammon.Model
                 }                
                 else if (validmovestounocupiedlocationsEGB.Count > 0)
                 {
-                    return SelectionOfVMTULEGB(roll, currentplayer, validmovestounocupiedlocationsEGB);
+                    return SelectionOfRandomItemInList(roll, currentplayer, validmovestounocupiedlocationsEGB);
                 }
                 else if (validsafetymovesEGB.Count > 0)
                 {
-                    return SelectionOfRandomVSMEGB(roll, currentplayer, validsafetymovesEGB);
+                    return SelectionOfRandomItemInList(roll, currentplayer, validsafetymovesEGB);
                 }
                 else
                 {
@@ -369,11 +334,11 @@ namespace Backgammon.Model
                 }
                 else if (validmovestounocupiedlocationsEGW.Count >0)
                 {
-                    return SelectionOfVMTULEGW(roll,currentplayer, validmovestounocupiedlocationsEGW);
+                    return SelectionOfRandomItemInList(roll,currentplayer, validmovestounocupiedlocationsEGW);
                 }
                 else if (validsafetymovesEGW.Count > 0)
                 {
-                    return SelectionOfRandomVSMEGW(roll, currentplayer, validsafetymovesEGW);
+                    return SelectionOfRandomItemInList(roll, currentplayer, validsafetymovesEGW);
                 }
                 else
                 {
