@@ -85,9 +85,13 @@ namespace Backgammon.Testsimualtions
             {
                 Player1 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.White, Board);
             }
-            else
+            else if(Player1.Name == "Running Game Strategy")
             {
                 Player1 = new RunningGamePlayer("RunningGamePlayer", Colours.White, Board);
+            }
+            else
+            {
+                Player1 = new BlitzPlayer("Blitz Player", Colours.White, Board);
             }
 
 
@@ -109,10 +113,14 @@ namespace Backgammon.Testsimualtions
             {
                 Player2 = new AutomatedPlayer3B("AutomatedPlayer3B", Colours.Black, Board);
             }
-            else
+            else if(Player2.Name == "Running Game Strategy")
             {
                 Player2 = new RunningGamePlayer("RunningGamePlayer", Colours.Black, Board);
                 
+            }
+            else
+            {
+                Player2 = new BlitzPlayer("Blitz Player", Colours.Black, Board);
             }
 
             Currentplayer = Player1;
