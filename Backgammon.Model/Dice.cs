@@ -8,22 +8,24 @@ namespace Backgammon.Model
 {
     public class Dice
     {
+        public int LastThrow { get; set; }
         public Random RNG { get; set; }
         public Dice()
         {
             RNG = new Random();
+            LastThrow = 1;
         }
-        public virtual  int Throw()
+        public virtual int Throw()
         {
             int Dice = RNG.Next(1, 7);
             return Dice;
         }
-       
+
+
 
     }
-    public class PredictableDice:Dice
-        {
-        public int LastThrow { get; set; }
+    public class PredictableDice : Dice
+    { 
         public override int Throw()
         {
             var newThrow = LastThrow + 1;
@@ -35,23 +37,7 @@ namespace Backgammon.Model
             return newThrow;
         }
     }
-    //public static class PlayerDice
-    //{
-    //    private static Random RandomNumberGenerator;
 
-    //    static PlayerDice()
-    //    {
-    //        RandomNumberGenerator = new Random();
-    //    }
-
-    //    public static DiceRollResult Roll()
-    //    {
-    //        var result = new DiceRollResult();
-    //        result.Die1 = RandomNumberGenerator.Next(1, 7);
-    //        result.Die2 = RandomNumberGenerator.Next(1, 7);
-    //        return result;
-    //    }
-    //}
-
+   
 
 }

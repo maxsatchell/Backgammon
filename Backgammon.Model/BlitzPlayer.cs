@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backgammon.Model
 {
-    public class BlitzPlayer : AutomatedPlayer
+    public class BlitzPlayer : AutomatedPlayer3B
     {
         public BlitzPlayer(string name, Colours colour, Board board) : base(name, colour, board)
         {
@@ -21,14 +21,9 @@ namespace Backgammon.Model
             //Take oppenents exposed pieces whenever possible
             if (Board.EndGameChecker(currentplayer.Colour) == true)
             {
-                if (currentplayer.Colour == Colours.Black)
-                {
-                    return SelectionOfHighestVMBlack(roll,currentplayer);
-                }
-                else
-                {
-                    return SelectionOfLowestVMWhite(roll, currentplayer);
-                }
+               
+                    return base.ChoosePieceInEndGame(roll, currentplayer, movecCount, doubleMove);
+              
             }
             else
             {

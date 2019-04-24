@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backgammon.Model
 {
-    public class RunningGamePlayer : AutomatedPlayer3A
+    public class RunningGamePlayer : AutomatedPlayer3B
     {
         public RunningGamePlayer(string name, Colours colour, Board board) : base(name, colour, board)
         {
@@ -15,6 +15,10 @@ namespace Backgammon.Model
 
         public override int ChoosePiece(int roll, Player currentplayer, int movecCount, Tuple<bool, int, int> doubleMove)
         {
+            if (Board.EndGameChecker(currentplayer.Colour) == true)
+            {
+                return base.ChoosePieceInEndGame(roll, currentplayer, movecCount, doubleMove);
+            }
             if (PipCount(currentplayer.Colour) <130)
             {
                 if (doubleMove.Item1 == true)

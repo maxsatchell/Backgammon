@@ -13,7 +13,7 @@ namespace Backgammon.Model
         {
         }
 
-
+        
         protected int SelectionOfHighestVMBlack(int roll, Player currentplayer)
         {
             var validMoves = Board.ValidMoves(currentplayer.Colour, roll);

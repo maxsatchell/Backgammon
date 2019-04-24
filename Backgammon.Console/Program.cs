@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Backgammon.Model;
-using Fixtures;
-using System.IO;
 
 namespace Backgammon.ConsoleUI
 {
@@ -17,25 +12,20 @@ namespace Backgammon.ConsoleUI
         static Player Player1 { get; set; }
         static Player Player2 { get; set; }
         static Player Currentplayer { get; set; }
+        
 
         static void Main(string[] args)
         {
             StartNewGame();
             ChooseColors();
 
-            while (Board.Locations[50].Number < 15 & Board.Locations[51].Number < 15)//End game condition here that can be looked at 
+            while (Board.Locations[50].Number < 15 & Board.Locations[51].Number < 15)
             {
 
                
                 Game.Run();
-                Console.WriteLine("Would you like to save the game (y = yes, n = no)");
-                var input = Console.ReadLine();
-                if (input.ToUpper() == "Y")
-                {
-
-                    //WriteToBinaryFile();
-                }
-          
+                
+                Console.ReadKey();
                 Console.Clear();
                 BoardOutputter();
             }
@@ -56,6 +46,7 @@ namespace Backgammon.ConsoleUI
         {
             Console.WriteLine("Welcome to the best backgammon game on the internet");
             Console.WriteLine("The game will start soon");
+            
             Board = new Board(Dice);//where you load
         }
 
@@ -77,31 +68,7 @@ namespace Backgammon.ConsoleUI
 
         }
 
-        public static void WriteToBinaryFile<T>()
-        {
-            var append = false;
-            Game currentGame = new Game(Player1, Player2, Currentplayer, Board);
-            Console.Write("What would you like your filename to be :");
-            var fileName = Console.ReadLine();
-            using (Stream stream = File.Open(fileName, append ? FileMode.Append : FileMode.Create))
-            {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                binaryFormatter.Serialize(stream, currentGame);
-            }
-        }
-
-
-        public static T ReadFromBinaryFile<T>(string filePath)
-        {
-            Console.WriteLine("What is the name of the file you wish to open");
-            var fileName = Console.ReadLine();
-            using (Stream stream = File.Open(fileName, FileMode.Open))
-            {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (T)binaryFormatter.Deserialize(stream);
-            }
-        }
-
+    
 
         private static void ChooseColors()
         {
@@ -125,15 +92,29 @@ namespace Backgammon.ConsoleUI
             Console.WriteLine("In this area you can select your colour,name and whether or not you want to play against a bot");
             do
             {
-                Console.WriteLine("For human vs human press H; For human vs bot press HB; For bot vs bot press B :");
+                Console.Write("For human vs human press H; For human vs bot press HB; For bot vs bot press B :");
                 var playerselect = Console.ReadLine();
                 if (playerselect.ToUpper() == "H")
                 {
                     Console.WriteLine("You have selected human vs human!");
-                    Console.WriteLine("You can now customize the players");
-                    player1type = "Human";
-                    player2type = "Human";
-                    repeater = true;
+                    Console.Write("Are you a novice player Y/N :");
+                    var input = Console.ReadLine();
+                    if (input.ToUpper() == "Y")
+                    {
+                        Console.WriteLine("Enabling hints");
+                        player1type = "Novice";
+                        player2type = "Novice";
+                        Console.WriteLine("You can now customize the players");
+                        repeater = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You can now customize the players");
+                        player1type = "Human";
+                        player2type = "Human";
+                        repeater = true;
+                    }
+                   
                 }
                 else if (playerselect.ToUpper() == "B")
                 {
@@ -143,7 +124,7 @@ namespace Backgammon.ConsoleUI
                     Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B, rgs = Running game strategy, bp = Blitz player)");
                     do
                     {
-                        Console.WriteLine("Select Player 1s bot type :");
+                        Console.Write("Select Player 1s bot type :");
                         player1botselection = Console.ReadLine();
                         if (player1botselection.ToUpper() == "B")
                         {
@@ -185,7 +166,7 @@ namespace Backgammon.ConsoleUI
 
                     do
                     {
-                        Console.WriteLine("Select Player 2s bot type :");
+                        Console.Write("Select Player 2s bot type :");
                         player2botselection = Console.ReadLine();
                         if (player2botselection.ToUpper() == "B")
                         {
@@ -230,12 +211,24 @@ namespace Backgammon.ConsoleUI
                 {
                     Console.WriteLine("You have selected human vs bot");
                     Console.WriteLine("You can now customize the players");
-                    player1type = "Human";
+                    Console.WriteLine("Are you a novice player Y/N :");
+                    var input = Console.ReadLine();
+                    if (input.ToUpper() == "Y")
+                    {
+                        Console.WriteLine("Enabling hints");
+                        player1type = "Novice";                      
+                        Console.WriteLine("You can now customize the players");
+                    }
+                    else
+                    {
+                        player1type = "Human";
+                    }
+                   
                     Console.WriteLine("Player 1 is human");
                     Console.WriteLine("What type of bot would you like (b = basic bot, d = defensive bot, ad = advanced defensive bot, adb = advanced defensive bot B,rgs = Running game strategy,bp = Blitz player)");
                     do
                     {
-                        Console.WriteLine("Select Players bot type :");
+                        Console.Write("Select Players bot type :");
                         player2botselection = Console.ReadLine();
                         if (player2botselection.ToUpper() == "B")
                         {
@@ -282,15 +275,15 @@ namespace Backgammon.ConsoleUI
                 }
             } while (repeater == false);
 
-            Console.WriteLine("Name player 1 :");
+            Console.Write("Name player 1 :");
             player1name = Console.ReadLine();
-            Console.WriteLine("Name player 2 :");
+            Console.Write("Name player 2 :");
             player2name = Console.ReadLine();
-            Console.WriteLine("Last step please pick a colour for player 1 player 2 will be the other colour");
+            Console.WriteLine("Last step please pick a colour for player 1, player 2 will be the other colour!");
 
             do
             {
-                Console.WriteLine("Select colour (b = black, w = white) :");
+                Console.Write("Select colour (b = black, w = white) :");
                 player1colourselect = Console.ReadLine();
                 if (player1colourselect == "b")
                 {
@@ -325,6 +318,10 @@ namespace Backgammon.ConsoleUI
             {
                 Player1 = new HumanPlayer(player1name, player1colour, Board);
             }
+            else if (player1type == "Novice")
+            {
+                Player1 = new NovicePlayer(player1name, player1colour, Board);
+            }
             else if (player1type == "Basic Bot")
             {
                 Player1 = new AutomatedPlayer1(player1name, player1colour, Board);
@@ -354,6 +351,10 @@ namespace Backgammon.ConsoleUI
             if (player2type == "Human")
             {
                 Player2 = new HumanPlayer(player2name, player2colour, Board);
+            }
+            else if (player2type == "Novice")
+            {
+                Player2 = new NovicePlayer(player2name, player2colour, Board);
             }
             else if (player2type == "Basic Bot")
             {
@@ -394,35 +395,43 @@ namespace Backgammon.ConsoleUI
         private static void BoardOutputter()
         {
             StringBuilder topPiece = new StringBuilder();
-            topPiece.Append("--------------");
+            topPiece.Append("---------------------------------------");
+            StringBuilder LocationIdenTop = new StringBuilder();
+            LocationIdenTop.Append("| 23 22 21 20 19 18  17 16 15 14 13 12|");
             StringBuilder line = new StringBuilder();
             int highestPieceCount = HighestvalueTophalf();           
             int topHalfCount = 0;
+            Console.WriteLine(topPiece.ToString());
+            Console.WriteLine(LocationIdenTop.ToString());
             Console.WriteLine(topPiece.ToString());
             for (int i = 0; i < (highestPieceCount); i++)
             {
                 line.Append("|");
                 for (int a = 23; a >11; a--)
                 {
+                    if (a == 17)
+                    {
+                        line.Append("|");
+                    }
                     if (Board.Locations[a].Number - topHalfCount > 0)
                     {
                         var zeroOrOne = Board.Locations[a].Colour;                       
                         if (zeroOrOne == Colours.White)
                         {
                            
-                                line.Append("0");
+                                line.Append(" 0 ");
                             
                         }
                         else if (zeroOrOne == Colours.Black)
                         {
                            
-                                line.Append("1");
+                                line.Append(" 1 ");
                             
                         }
                     }
                     else
                     {
-                        line.Append(".");
+                        line.Append(" . ");
                     }
                 }
                 line.Append("|");
@@ -431,7 +440,7 @@ namespace Backgammon.ConsoleUI
                 topHalfCount = topHalfCount + 1;
             }
             StringBuilder middlePiece = new StringBuilder();
-            middlePiece.Append("--------------" + "          Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number + " B:" + Board.Locations[50].Number + " W:" + Board.Locations[51].Number);
+            middlePiece.Append("---------------------------------------" + "  Pieces that have been taken by the other player; Black pieces =" + Board.Locations[40].Number + " White pieces =" + Board.Locations[41].Number + " B:" + Board.Locations[50].Number + " W:" + Board.Locations[51].Number);
             Console.WriteLine(middlePiece.ToString());
             int bottomHalfCount = highestValueBottomHalf();
             int bottomHighestValue = highestValueBottomHalf();           
@@ -440,25 +449,29 @@ namespace Backgammon.ConsoleUI
                 line.Append("|");
                 for (int a = 0; a < 12; a++)
                 {
+                    if (a == 6)
+                    {
+                        line.Append("|");
+                    }
                     if (Board.Locations[a].Number - bottomHalfCount >= 0)
                     {
                         var zeroOrOne = Board.Locations[a].Colour;
                         if (zeroOrOne == Colours.White)
                         {
 
-                            line.Append("0");
+                            line.Append(" 0 ");
 
                         }
                         else if (zeroOrOne == Colours.Black)
                         {
 
-                            line.Append("1");
+                            line.Append(" 1 ");
 
                         }
                     }
                     else
                     {
-                        line.Append(".");
+                        line.Append(" . ");
                     }
                 }
                 line.Append("|");
@@ -467,13 +480,17 @@ namespace Backgammon.ConsoleUI
                 bottomHalfCount = bottomHalfCount - 1;
             }
             StringBuilder bottomPiece = new StringBuilder();
-            bottomPiece.Append("--------------");
+            bottomPiece.Append("---------------------------------------");
+            StringBuilder LocationIdenBottom = new StringBuilder();
+            LocationIdenBottom.Append("| 0  1  2  3  4  5   6  7  8  9  10 11|");
+            Console.WriteLine(bottomPiece);
+            Console.WriteLine(LocationIdenBottom.ToString());
             Console.WriteLine(bottomPiece);
 
         }
         private static int HighestvalueTophalf()
         {
-            int highestValue = 0;
+            int highestValue = 5;
             for (int i = 23; i > 11 ; i--)
             {
                 int valueChecker = 0;
@@ -487,7 +504,7 @@ namespace Backgammon.ConsoleUI
         }
         private static int highestValueBottomHalf()
         {
-            int highestValue = 0;
+            int highestValue = 5;
             for (int i = 0; i < 12; i++)
             {
                 int valueChecker = 0;

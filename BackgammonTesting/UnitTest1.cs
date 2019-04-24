@@ -30,7 +30,7 @@ namespace BackgammonTesting
         public void MovesTestNumberOfPiecesOnOldSpace()
         {
             var b = new Board(null);
-            b.executeMove(Colours.Black, 6, 1);
+            b.ExecuteMove(Colours.Black, 6, 1);
             var loc6 = b.Locations[6];
             Assert.AreEqual(4, loc6.Number);
         }
@@ -38,7 +38,7 @@ namespace BackgammonTesting
         public void MovesTestNumberOfPiecesOnNewSpace()
         {
             var b = new Board(null);
-            b.executeMove(Colours.Black, 6, 1);
+            b.ExecuteMove(Colours.Black, 6, 1);
             var loc7 = b.Locations[7];
             Assert.AreEqual(1, loc7.Number);
 

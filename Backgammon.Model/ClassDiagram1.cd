@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Backgammon.Model.AutomatedPlayer">
-    <Position X="2.75" Y="1.5" Width="3.5" />
+  <Class Name="Backgammon.Model.AutomatedPlayer" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EgQEIAEAADAAIAAAEAAAAEAAIAAgAAAABAAEAAAACEA=</HashCode>
       <FileName>AutomatedPlayer.cs</FileName>
@@ -15,91 +15,84 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.AutomatedPlayer2" Collapsed="true">
-    <Position X="7.5" Y="2.25" Width="1.5" />
+    <Position X="3" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAEAAAAAAAAAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
       <FileName>AutomatedPlayer2.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Backgammon.Model.AutomatedPlayer3A">
-    <Position X="8.75" Y="3.25" Width="1.5" />
+  <Class Name="Backgammon.Model.AutomatedPlayer3A" Collapsed="true">
+    <Position X="6.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAEAAAAAABIAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
       <FileName>AutomatedPlayer3A.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.AutomatedPlayer3B" Collapsed="true">
-    <Position X="7.5" Y="4.75" Width="1.5" />
+    <Position X="6.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAEAAAAAABIAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
       <FileName>AutomatedPlayer3B.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.BlitzPlayer" Collapsed="true">
-    <Position X="0.5" Y="2" Width="1.5" />
+    <Position X="5.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
       <FileName>BlitzPlayer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.Board" Collapsed="true">
-    <Position X="12.25" Y="0.5" Width="1.5" />
+    <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BADAAEAQBAABEEABACIAAAAAAAAAABQAAAABAIUAAAA=</HashCode>
+      <HashCode>BADAAEAQBAABEEABACIAAAAAAAAAABUAAAAAAIUAAAA=</HashCode>
       <FileName>Board.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.Dice" Collapsed="true">
     <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAQAAAAQAAAAAAAAA=</HashCode>
       <FileName>Dice.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.PredictableDice" Collapsed="true">
     <Position X="0.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Dice.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Backgammon.Model.DiceRollResult" Collapsed="true">
-    <Position X="14" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DiceRollResult.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Backgammon.Model.Game" Collapsed="true">
-    <Position X="12.25" Y="1.5" Width="1.5" />
+    <Position X="11.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAIAAAAAAwAAAAAAAEAAAAAAAAAAAADEAAAI=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.Location" Collapsed="true">
-    <Position X="14" Y="1.5" Width="1.5" />
+    <Position X="10" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAGAEAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Location.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.Player" Collapsed="true">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+    <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAABAAADEAAAA=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Backgammon.Model.RunningGamePlayer" Collapsed="true">
-    <Position X="9.75" Y="4.75" Width="1.5" />
+    <Position X="7.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAABAAAAEAAAA=</HashCode>
       <FileName>RunningGamePlayer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="Backgammon.Model.Colours" Collapsed="true">
-    <Position X="12.25" Y="2.75" Width="1.5" />
+    <Position X="10" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Colours.cs</FileName>

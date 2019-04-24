@@ -7,26 +7,56 @@ using Backgammon.Model;
 
 namespace Backgammon.ConsoleUI
 {
-
-    public class HumanPlayer : Player
+    public class NovicePlayer: Player
     {
+
         static Dice Dice { get; set; }
-        public HumanPlayer(string name, Colours colour,Board board) : base(name, colour,board)
+
+        public NovicePlayer(string name, Colours colour, Board board) : base(name, colour, board)
         {
             Board = board;
         }
 
-        public override int ChoosePiece(int roll,Player currentplayer,int movecount,Tuple<bool,int,int> results)
+      
+       
+
+        public override int ChoosePiece(int roll, Player currentplayer, int movecount, Tuple<bool, int, int> results)
         {
             var checker = Board.ValidMoves(currentplayer.Colour, roll);
             var validSelection = false;
             int locationidentifier = 0;
             do
             {
+                Console.Write("Would you like a hint Y/N :");
+                var input = Console.ReadLine();
+                if (input.ToUpper() == "Y")
+                {
+                    Console.WriteLine("You have chosen to have a hint!");
+                    Console.Write("To have a single valid move given to you press 1, For the whole list of validmoves press 2 and to exit hint press 3 :");
+                    var hintInput = Console.ReadLine();
+                    if (hintInput == "1")
+                    {
+                        Console.WriteLine("Your one valid location to move from is :" + checker[1].ToString());
+                    }
+                    else if (hintInput == "2")
+                    {
+                        Console.Write("The list of valid locations to move from with this dice are :" );
+                        foreach (var item in checker)
+                        {
+                            Console.Write(" "+ item.ToString());
+
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Quitting hints!");
+                    }
+                }
                 if (Board.AnyPiecesTaken(currentplayer.Colour) == true)
                 {
                     Console.WriteLine("YOUR PIECE HAS BEEN TAKEN choose a valid location to come back onto the board with the dice rolled");
                 }
+                Console.WriteLine();
                 Console.WriteLine("The dice chosen for this move is " + roll);
                 Console.Write("Select a piece from the Board to move. E.G. press 1 to move the pieces in location 1 :");
                 var piecelocation = Console.ReadLine();
@@ -41,20 +71,20 @@ namespace Backgammon.ConsoleUI
                 }
             } while (validSelection == false);
             return locationidentifier;
-           
+
         }
 
-        
-        public static void OutputDice(int roll1,int roll2)
+
+        public static void OutputDice(int roll1, int roll2)
         {
-            Console.Write("Press D to roll the Dice :");      
+            Console.Write("Press D to roll the Dice :");
             Console.ReadKey();
             Console.WriteLine();
             Console.WriteLine("You rolled a " + roll1 + " and a " + roll2);
         }
 
 
-        public override int RollSelector(int roll1, int roll2, Player currentplayer,int movecount)
+        public override int RollSelector(int roll1, int roll2, Player currentplayer, int movecount)
         {
             OutputDice(roll1, roll2);
             if (roll1 == roll2)
@@ -86,7 +116,7 @@ namespace Backgammon.ConsoleUI
                 }
                 else if (dicePicker == diceChecktwo)
                 {
-                    Console.WriteLine("You have selected the dice " + diceChecktwo + " your next roll will be with "+ diceCheckone);
+                    Console.WriteLine("You have selected the dice " + diceChecktwo + " your next roll will be with " + diceCheckone);
                     return roll2;
                 }
                 else
@@ -94,10 +124,10 @@ namespace Backgammon.ConsoleUI
                     Console.WriteLine("Invalid input please restart the process");
                 }
             } while (true);
-             
+
         }
 
-        
+
         public override void UpdatePlayer()
         {
             Console.Clear();
@@ -193,10 +223,12 @@ namespace Backgammon.ConsoleUI
             Console.WriteLine(bottomPiece);
             Console.WriteLine(LocationIdenBottom.ToString());
             Console.WriteLine(bottomPiece);
-        }
-        
+
            
-        
+        }
+
+
+
         public int HighestvalueTophalf()
         {
             int highestValue = 5;
@@ -230,7 +262,7 @@ namespace Backgammon.ConsoleUI
         public override void RollChange(int roll)
         {
             Console.WriteLine("There are no available moves on the dice you have selected!");
-            Console.WriteLine("But there are availble moves with the other roll "+roll);
+            Console.WriteLine("But there are availble moves with the other roll " + roll);
             Console.WriteLine(roll + " is the dice you have now selected");
         }
 
@@ -240,7 +272,4 @@ namespace Backgammon.ConsoleUI
         }
     }
 }
-
-
-
 

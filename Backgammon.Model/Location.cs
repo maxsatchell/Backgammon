@@ -37,7 +37,7 @@ namespace Backgammon.Model
             {
                 Colour = colour;
             }
-            //Guard against trying to add a different colour
+           
         }
             
     }

@@ -33,3 +33,7 @@ namespace Backgammon.Model
         public abstract void NoValidMoves();
     }
 }
+
+
+
+

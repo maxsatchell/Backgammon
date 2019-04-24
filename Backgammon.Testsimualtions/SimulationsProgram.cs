@@ -61,7 +61,7 @@ namespace Backgammon.Testsimualtions
                 }
                 else
                 {
-                    repeater = false;
+                    repeater = false; 
                 }
                 Console.ReadKey();
             } while (repeater == true);

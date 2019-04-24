@@ -59,7 +59,7 @@ namespace Backgammon.Model
                         validStackMoves.Add(location);
                     }
                 }
-                if (validStackMoves.Count > 0 )
+                if (validStackMoves.Count > 0)
                 {
                     int randomLocation = rnd.Next(validStackMoves.Count);
                     int selection = validStackMoves[randomLocation];
