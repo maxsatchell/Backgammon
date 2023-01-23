@@ -86,6 +86,7 @@ namespace Backgammon.Model
                     }
                     Currentplayer.UpdatePlayer();                   
                 }
+                Playerswapper(Currentplayer);
                 return;
             }
             else
